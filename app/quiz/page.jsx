@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { quiz } from '../data';
+import React, { useState } from "react";
+import { quiz } from "../data";
 
 const QuizPage = () => {
   const [activeQuestion, setActiveQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [selectedAnswer, setSelectedAnswer] = useState("");
   const [checked, setChecked] = useState(false);
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
   const [showResult, setShowResult] = useState(false);
@@ -24,10 +24,10 @@ const QuizPage = () => {
     setSelectedAnswerIndex(idx);
     if (answer === correctAnswer) {
       setSelectedAnswer(true);
-      console.log('true');
+      console.log("true");
     } else {
       setSelectedAnswer(false);
-      console.log('false');
+      console.log("false");
     }
   };
 
@@ -56,7 +56,7 @@ const QuizPage = () => {
   };
 
   return (
-    <div className='container'>
+    <div className="container">
       <h1>Quiz Page</h1>
       <div>
         <h2>
@@ -66,32 +66,32 @@ const QuizPage = () => {
       </div>
       <div>
         {!showResult ? (
-          <div className='quiz-container'>
+          <div className="quiz-container">
             <h3>{questions[activeQuestion].question}</h3>
             {answers.map((answer, idx) => (
               <li
                 key={idx}
                 onClick={() => onAnswerSelected(answer, idx)}
                 className={
-                  selectedAnswerIndex === idx ? 'li-selected' : 'li-hover'
+                  selectedAnswerIndex === idx ? "li-selected" : "li-hover"
                 }
               >
                 <span>{answer}</span>
               </li>
             ))}
             {checked ? (
-              <button onClick={nextQuestion} className='btn'>
-                {activeQuestion === question.length - 1 ? 'Finish' : 'Next'}
+              <button onClick={nextQuestion} className="btn">
+                {activeQuestion === question.length - 1 ? "Finish" : "Next"}
               </button>
             ) : (
-              <button onClick={nextQuestion} disabled className='btn-disabled'>
-                {' '}
-                {activeQuestion === question.length - 1 ? 'Finish' : 'Next'}
+              <button onClick={nextQuestion} disabled className="btn-disabled">
+                {" "}
+                {activeQuestion === question.length - 1 ? "Finish" : "Next"}
               </button>
             )}
           </div>
         ) : (
-          <div className='quiz-container'>
+          <div className="quiz-container">
             <h3>Results</h3>
             <h3>Overall {(result.score / 25) * 100}%</h3>
             <p>
