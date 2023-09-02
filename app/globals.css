@@ -144,7 +144,6 @@ li {
 .questions-section {
   width: 80%;
   margin: auto;
-  padding-top: 2rem;
 }
 
 .question-input {
@@ -162,6 +161,13 @@ li {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.question-form {
+  margin-top: 2rem;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 }
 
 .add-option-btn,
