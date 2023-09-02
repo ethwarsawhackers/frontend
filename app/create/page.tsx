@@ -6,7 +6,6 @@ import { contracts, QuizContract, QuizQuestion, Metadata } from "../data";
 import Confetti from "react-confetti";
 import { v4 as uuidv4 } from "uuid";
 import TextField from "@mui/material/TextField";
-import { metadata } from "../layout";
 
 const CreateQuizPage: React.FC = () => {
   const emptyEntry = [
@@ -188,9 +187,10 @@ const CreateQuizPage: React.FC = () => {
           <TextField
             id="outlined-basic"
             label="No. of tokens"
+            type="number"
             variant="outlined"
             onChange={(event) =>
-              setMetadata({ ...metadata, title: event.target.value })
+              setMetadata({ ...metadata, tokens: event.target.value })
             }
             value={metadata?.tokens}
             className="text-input"
@@ -200,7 +200,7 @@ const CreateQuizPage: React.FC = () => {
             label="Ticker"
             variant="outlined"
             onChange={(event) =>
-              setMetadata({ ...metadata, title: event.target.value })
+              setMetadata({ ...metadata, ticker: event.target.value })
             }
             value={metadata?.ticker}
             className="text-input"
@@ -210,7 +210,7 @@ const CreateQuizPage: React.FC = () => {
             label="Chain"
             variant="outlined"
             onChange={(event) =>
-              setMetadata({ ...metadata, title: event.target.value })
+              setMetadata({ ...metadata, chain: event.target.value })
             }
             value={metadata?.chain}
             className="text-input"
@@ -220,7 +220,7 @@ const CreateQuizPage: React.FC = () => {
             label="Allowed participants"
             variant="outlined"
             onChange={(event) =>
-              setMetadata({ ...metadata, title: event.target.value })
+              setMetadata({ ...metadata, allow: event.target.value })
             }
             value={metadata?.allow}
             className="text-input"
@@ -228,9 +228,10 @@ const CreateQuizPage: React.FC = () => {
           <TextField
             id="outlined-basic"
             label="Max no. of entries"
+            type="number"
             variant="outlined"
             onChange={(event) =>
-              setMetadata({ ...metadata, title: event.target.value })
+              setMetadata({ ...metadata, maxEntries: event.target.value })
             }
             value={metadata?.maxEntries}
             className="text-input"
@@ -240,7 +241,7 @@ const CreateQuizPage: React.FC = () => {
             label="Description"
             variant="outlined"
             onChange={(event) =>
-              setMetadata({ ...metadata, title: event.target.value })
+              setMetadata({ ...metadata, note: event.target.value })
             }
             value={metadata?.note}
             className="text-input"
