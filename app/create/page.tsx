@@ -20,8 +20,7 @@ import {
   DeployPlugin,
   InjectedArweaveSigner,
 } from "warp-contracts-plugin-deploy";
-import { WarpFactory } from "warp-contracts";
-import { Keyring } from "@polkadot/keyring";
+import { ArWallet, WarpFactory } from "warp-contracts";
 
 import daQuizMeta from "../daQuiz.json";
 
@@ -343,7 +342,7 @@ const CreateQuizPage = dynamic(
           await userSigner.setPublicKey();
           const registryContract = warp
             .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
-            .connect(userSigner);
+            .connect(userSigner as any);
           const { contractTxId } = await warp.deployFromSourceTx({
             wallet: userSigner,
             initState: JSON.stringify({
