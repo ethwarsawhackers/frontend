@@ -21,18 +21,12 @@ import {
   DeployPlugin,
   InjectedArweaveSigner,
 } from "warp-contracts-plugin-deploy";
-<<<<<<< HEAD
-import { ArWallet, WarpFactory } from "warp-contracts";
 
-import daQuizMeta from "../daQuiz.json";
-=======
-import { WarpFactory } from "warp-contracts";
+import { ArWallet, WarpFactory } from "warp-contracts";
 
 import daQuizMeta from "../daQuiz.json";
 import alephzeroaccount from "../alephzeroaccount.json";
 import { binary_to_base58 } from "base58-js";
-
->>>>>>> 3a19d32 (Register alephcontract id in relay)
 
 const CreateQuizPage = dynamic(
   () =>
@@ -296,10 +290,6 @@ const CreateQuizPage = dynamic(
           const SENDER = alephWallet.address;
 
           // Initialize the keyring
-<<<<<<< HEAD
-          const keyring = new Keyring({ type: "sr25519" });
-=======
->>>>>>> 3a19d32 (Register alephcontract id in relay)
           const caller = await web3FromAddress(SENDER);
           api.setSigner(caller.signer);
 
@@ -331,13 +321,7 @@ const CreateQuizPage = dynamic(
           // const bprint = await blueprint.tx.new(endowment, gasLimit, constructorIndex, ...constructorArgs).signAndSend(alephWallet.address)
 
           let address;
-
-<<<<<<< HEAD
-          const unsub = await tx.signAndSend(alephWallet.address, (data) => {
-
-=======
           const unsub = await tx.signAndSend(alephWallet.address, async (data) => {
->>>>>>> 3a19d32 (Register alephcontract id in relay)
             if (data.isInBlock || data.isFinalized)
             {
               address = binary_to_base58(data.txHash);
