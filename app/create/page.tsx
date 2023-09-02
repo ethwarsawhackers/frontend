@@ -131,10 +131,18 @@ const CreateQuizPage: React.FC = () => {
       return; // Prevent further processing if validation fails
     }
 
+    // Convert notes to base64 encoding
+    const questionsWithBase64Notes = questions.map((q) => ({
+      ...q,
+      note: btoa(q.note), // Convert the note to base64
+    }));
+
+    metadata.note = btoa(metadata.note);
+
     let newContract: QuizContract = {
       metadata: metadata,
       entries: emptyEntry,
-      questions: questions,
+      questions: questionsWithBase64Notes,
     };
 
     contracts.push(newContract);
@@ -319,8 +327,8 @@ const CreateQuizPage: React.FC = () => {
         <button onClick={() => setIsSubmitted(false)}>
           Create Another Quiz
         </button>
-        <Link href="/allcontracts">
-          <button className="button">View All contracts</button>
+        <Link href="/allquizzes">
+          <button className="button">View All quizzes</button>
         </Link>
       </div>
     );

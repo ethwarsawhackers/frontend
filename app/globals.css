@@ -178,3 +178,32 @@ li {
 .qn-header {
   padding-top: 2.5rem;
 }
+.go-back-button {
+  position: absolute;
+  top: 20px; /* Adjust the top position as needed for your desired padding */
+  right: 20px; /* Adjust the right position as needed for your desired padding */
+  padding: 10px; /* Adjust the padding as needed */
+  background-color: var(--secondary-color); /* Button background color */
+  color: #fff; /* Button text color */
+  text-decoration: none;
+  border-radius: 5px; /* Rounded corners */
+}
+
+.go-back-button:hover {
+  background-color: lightgray; /* Hover background color */
+}
+
+.go-back-button {
+  position: absolute;
+  top: 20px; /* Adjust the top position as needed for your desired padding */
+  right: 20px; /* Adjust the right position as needed for your desired padding */
+  padding: 10px; /* Adjust the padding as needed */
+  background-color: var(--secondary-color); /* Button background color */
+  color: #fff; /* Button text color */
+  text-decoration: none;
+  border-radius: 5px; /* Rounded corners */
+}
+
+.go-back-button:hover {
+  background-color: lightgray; /* Hover background color */
+}
