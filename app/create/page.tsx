@@ -298,18 +298,21 @@ const CreateQuizPage = dynamic(
           // use null to prevent duplicate contracts
           const salt = Uint8Array.from(uuidv4(), x => x.charCodeAt(0));
 
+          const endowment = 1_000_000_000_000;
           const constructorIndex = 0;  // Index of the constructor to use
           const constructorArgs = [newContract.metadata, newContract.questions];
 
-          const tx = blueprint.tx.default({ gasLimit, storageDepositLimit, salt, constructorIndex, ...constructorArgs});
+          const tx = blueprint.tx.default({ gasLimit, storageDepositLimit, salt, ...constructorArgs});
 
+          // const bprint = await blueprint.tx.new(endowment, gasLimit, constructorIndex, ...constructorArgs).signAndSend(alephWallet.address)
+          
           let address;
 
-          const unsub = await tx.signAndSend(alephWallet.address, ({ contract, status }) => {
-            if (status.isInBlock || status.isFinalized)
+          const unsub = await tx.signAndSend(alephWallet.address, (data) => {
+            if (data.isInBlock || data.isFinalized)
             {
-              console.log(contract);
-              address = contract.txHash.toString();
+              console.log(data);
+              address = data.address.toString();
               unsub();
             }
           });
