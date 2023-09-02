@@ -324,7 +324,7 @@ const CreateQuizPage = dynamic(
           console.log(
             `Creating form with address ${arweaveWallet.getActiveAddress()}`
           );
-          const userSigner = new InjectedArweaveSigner(arWallet);
+          const userSigner = new InjectedArweaveSigner((window as any).arWallet);
           await userSigner.setPublicKey();
           const registryContract = warp
             .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
