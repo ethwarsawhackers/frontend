@@ -88,3 +88,7 @@ li {
 .container p {
   padding: 8px 0;
 }
+
+.text-input {
+  padding-top: 1rem;
+}
