@@ -6,7 +6,7 @@ export async function fetchContractData (contractId){
             let contractData=await fetch(
                 `https://dre-2.warp.cc/contract?id=`+cId
                 ).then(r=>r.json())
-                return contractData.state
+                return {...contractData.state,id:cId}
         },
         "undefined":()=>undefined
     };

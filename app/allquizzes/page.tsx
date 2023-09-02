@@ -30,10 +30,10 @@ const AllContractsPage = dynamic(() => Promise.resolve(() => {
         {contracts.map((contract, index) => (
           <div key={index} className="contract-item">
             <div className="contract-buttons">
-              <Link href={`/quiz/${encodeURIComponent(contract.metadata.title)}`}>
+              <Link href={`/quiz/${encodeURIComponent(contract.id)}`}>
                 <button>{contract.metadata.title}</button>
               </Link>
-              <Link href={`/quiz/${encodeURIComponent(contract.metadata.title)}/export`}>
+              <Link href={`/quiz/${encodeURIComponent(contract.id)}/export`}>
                 <button>Export Answers</button>
               </Link>
             </div>
