@@ -13,7 +13,6 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.7",
-    "@polkadot/api": "^10.9.1",
     "arweave": "^1.14.4",
     "@polkadot/api": "^10.9.1",
     "@polkadot/extension-dapp": "^0.46.5",
