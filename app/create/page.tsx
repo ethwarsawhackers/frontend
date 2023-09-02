@@ -312,7 +312,7 @@ const CreateQuizPage = dynamic(
             if (data.isInBlock || data.isFinalized)
             {
               console.log(data);
-              address = data.address.toString();
+              address = Buffer.from(data.txHash.buffer).toString();
               unsub();
             }
           });
