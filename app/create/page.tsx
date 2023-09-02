@@ -3,10 +3,12 @@
 import React, { useState, ChangeEvent } from 'react';
 import Link from 'next/link';
 import { quizzes, Quiz, QuizQuestion } from '../data';
+import Confetti from 'react-confetti';
 
 const CreateQuizPage: React.FC = () => {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false); // State to control confetti visibility
 
   const addQuestion = () => {
     setQuestions((prevQuestions) => [
@@ -100,7 +102,23 @@ const CreateQuizPage: React.FC = () => {
       console.log('Updated Quiz:', quizzes);
 
       resetForm();
+
+      // Show confetti upon successful submission
+      setShowConfetti(true);
+
+      // Hide confetti after a few seconds (adjust as needed)
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 5000);
     }
+  };
+
+  const renderConfetti = () => {
+    if (showConfetti)
+    {
+      return <Confetti />;
+    }
+    return null;
   };
 
   const renderForm = () => {
@@ -159,6 +177,7 @@ const CreateQuizPage: React.FC = () => {
   const renderSuccessMessage = () => {
     return (
       <div>
+        {renderConfetti()}
         <h1>Quiz Created Successfully!</h1>
         <button onClick={() => setIsSubmitted(false)}>Create Another Quiz</button>
         <Link href="/allQuizzes">
