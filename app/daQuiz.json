@@ -1,0 +1,1099 @@
+{
+  "source": {
+    "hash": "0xab90296deb54ef262b070ef27ab756eb88bd05773d75420daea255a9c35583f9",
+    "language": "ink! 4.3.0",
+    "compiler": "rustc 1.74.0-nightly",
+    "build_info": {
+      "build_mode": "Release",
+      "cargo_contract_version": "3.2.0",
+      "rust_toolchain": "nightly-x86_64-unknown-linux-gnu",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
+      }
+    }
+  },
+  "contract": {
+    "name": "daQuiz",
+    "version": "0.0.42",
+    "authors": [
+      "ETHWarsawHackers <ewh@dyor.lol>"
+    ]
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [
+          {
+            "label": "init_metadata",
+            "type": {
+              "displayName": [
+                "Metadata"
+              ],
+              "type": 14
+            }
+          },
+          {
+            "label": "init_questions",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 16
+        },
+        "selector": "0x9bae9d5e"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "default",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 16
+        },
+        "selector": "0xed4b9d1b"
+      }
+    ],
+    "docs": [],
+    "environment": {
+      "accountId": {
+        "displayName": [
+          "AccountId"
+        ],
+        "type": 0
+      },
+      "balance": {
+        "displayName": [
+          "Balance"
+        ],
+        "type": 28
+      },
+      "blockNumber": {
+        "displayName": [
+          "BlockNumber"
+        ],
+        "type": 21
+      },
+      "chainExtension": {
+        "displayName": [
+          "ChainExtension"
+        ],
+        "type": 30
+      },
+      "hash": {
+        "displayName": [
+          "Hash"
+        ],
+        "type": 29
+      },
+      "maxEventTopics": 4,
+      "timestamp": {
+        "displayName": [
+          "Timestamp"
+        ],
+        "type": 5
+      }
+    },
+    "events": [],
+    "lang_error": {
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
+      "type": 18
+    },
+    "messages": [
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "getMetadata",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 19
+        },
+        "selector": "0xc61aad79"
+      },
+      {
+        "args": [
+          {
+            "label": "indices",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 20
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "getQuestions",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 22
+        },
+        "selector": "0x96a32eca"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "getEntries",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 23
+        },
+        "selector": "0xf8980373"
+      },
+      {
+        "args": [
+          {
+            "label": "data",
+            "type": {
+              "displayName": [
+                "InputEntry"
+              ],
+              "type": 24
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "setOwnEntry",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 25
+        },
+        "selector": "0x5da2ddb6"
+      },
+      {
+        "args": [
+          {
+            "label": "data",
+            "type": {
+              "displayName": [
+                "Metadata"
+              ],
+              "type": 14
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "updateMetadata",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 25
+        },
+        "selector": "0xb6236ba2"
+      },
+      {
+        "args": [
+          {
+            "label": "question",
+            "type": {
+              "displayName": [
+                "Question"
+              ],
+              "type": 11
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "updateQuestion",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 25
+        },
+        "selector": "0x34214c94"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 0
+                }
+              },
+              "name": "operator"
+            },
+            {
+              "layout": {
+                "struct": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "struct": {
+                          "fields": [
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 3
+                                }
+                              },
+                              "name": "title"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 3
+                                }
+                              },
+                              "name": "tokens"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 3
+                                }
+                              },
+                              "name": "ticker"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 3
+                                }
+                              },
+                              "name": "chain"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 4
+                                }
+                              },
+                              "name": "allow"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 5
+                                }
+                              },
+                              "name": "maxEntries"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 3
+                                }
+                              },
+                              "name": "note"
+                            },
+                            {
+                              "layout": {
+                                "struct": {
+                                  "fields": [
+                                    {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0x00000000",
+                                          "ty": 3
+                                        }
+                                      },
+                                      "name": "background"
+                                    },
+                                    {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0x00000000",
+                                          "ty": 3
+                                        }
+                                      },
+                                      "name": "text"
+                                    }
+                                  ],
+                                  "name": "Style"
+                                }
+                              },
+                              "name": "style"
+                            }
+                          ],
+                          "name": "Metadata"
+                        }
+                      },
+                      "name": "metadata"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 6
+                        }
+                      },
+                      "name": "entries"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 10
+                        }
+                      },
+                      "name": "questions"
+                    }
+                  ],
+                  "name": "DaState"
+                }
+              },
+              "name": "state"
+            }
+          ],
+          "name": "DaQuiz"
+        }
+      },
+      "root_key": "0x00000000"
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 1,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 2
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "primitive": "str"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 3
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "primitive": "u64"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 7
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "author",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "questions",
+                "type": 8,
+                "typeName": "Vec<QuestionEntry>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daQuiz",
+          "daQuiz",
+          "Entry"
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 9
+          }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "id",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "answers",
+                "type": 4,
+                "typeName": "Vec<String>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daQuiz",
+          "daQuiz",
+          "QuestionEntry"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 11
+          }
+        }
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "id",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "question",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "note",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "answers",
+                "type": 12,
+                "typeName": "Vec<Answer>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daQuiz",
+          "daQuiz",
+          "Question"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 13
+          }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "caption",
+                "type": 3,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daQuiz",
+          "daQuiz",
+          "Answer"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "title",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "tokens",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "ticker",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "chain",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "allow",
+                "type": 4,
+                "typeName": "Vec<String>"
+              },
+              {
+                "name": "maxEntries",
+                "type": 5,
+                "typeName": "u64"
+              },
+              {
+                "name": "note",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "style",
+                "type": 15,
+                "typeName": "Style"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daQuiz",
+          "daQuiz",
+          "Metadata"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "background",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "text",
+                "type": 3,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daQuiz",
+          "daQuiz",
+          "Style"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 17
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 17
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 14
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 14
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 21
+          }
+        }
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 10
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 10
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 6
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 6
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "author",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "questions",
+                "type": 8,
+                "typeName": "Vec<QuestionEntry>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daQuiz",
+          "daQuiz",
+          "InputEntry"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 26
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 26
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 17
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 27
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 17
+          },
+          {
+            "name": "E",
+            "type": 27
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "NotAllowed"
+              },
+              {
+                "index": 1,
+                "name": "NotFound"
+              }
+            ]
+          }
+        },
+        "path": [
+          "daQuiz",
+          "daQuiz",
+          "Error"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 29,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 1,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "variant": {}
+        },
+        "path": [
+          "ink_env",
+          "types",
+          "NoChainExtension"
+        ]
+      }
+    }
+  ],
+  "version": "4"
+}

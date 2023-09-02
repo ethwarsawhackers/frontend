@@ -16,6 +16,8 @@ import {
 } from "warp-contracts-plugin-deploy";
 import { WarpFactory } from "warp-contracts";
 
+import daQuizMeta from "../daQuiz.json";
+
 const warp = WarpFactory.forMainnet().use(new DeployPlugin());
 
 const CreateQuizPage = dynamic(
@@ -281,8 +283,9 @@ const CreateQuizPage = dynamic(
 
           // finds an injector for an address
           const caller = await web3FromAddress(SENDER);
+          console.log(caller.accounts)
 
-          const blueprint = new BlueprintPromise(api, metadata, '5FjsGWBHjiJynQYprSSGQXs7NgFTC6diU7SSrgsLv5gskbNZ');
+          const blueprint = new BlueprintPromise(api, daQuizMeta, '0xab90296deb54ef262b070ef27ab756eb88bd05773d75420daea255a9c35583f9');
 
           const gasLimit = 1E11;
           // a limit to how much Balance to be used to pay for the storage created by the instantiation
@@ -292,7 +295,10 @@ const CreateQuizPage = dynamic(
           // use null to prevent duplicate contracts
           const salt = Uint8Array.from(uuidv4(), x => x.charCodeAt(0));
 
-          const tx = blueprint.tx.default({ gasLimit, storageDepositLimit, salt });
+          const constructorIndex = 0;  // Index of the constructor to use
+          const constructorArgs = [newContract.metadata, newContract.questions];
+
+          const tx = blueprint.tx.default({ gasLimit, storageDepositLimit, salt, constructorIndex, ...constructorArgs});
 
           let address;
 
