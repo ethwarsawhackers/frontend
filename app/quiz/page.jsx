@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { quiz } from '../data.js';
+import { quiz } from '../data';
 
 const page = () => {
   const [activeQuestion, setActiveQuestion] = useState(0);
