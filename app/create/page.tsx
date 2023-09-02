@@ -6,6 +6,7 @@ import { contracts, QuizContract, QuizQuestion, Metadata } from "../data";
 import Confetti from "react-confetti";
 import { v4 as uuidv4 } from "uuid";
 import TextField from "@mui/material/TextField";
+import dynamic from "next/dynamic";
 import wallet from "../components/Arweave";
 
 const CreateQuizPage = dynamic(
@@ -192,6 +193,7 @@ const CreateQuizPage = dynamic(
                 }
                 value={metadata?.title}
                 className="text-input"
+                style={{ marginTop: "1rem" }}
               />
               <TextField
                 id="outlined-basic"
@@ -203,6 +205,7 @@ const CreateQuizPage = dynamic(
                 }
                 value={metadata?.tokens}
                 className="text-input"
+                style={{ marginTop: "1rem" }}
               />
               <TextField
                 id="outlined-basic"
@@ -213,6 +216,7 @@ const CreateQuizPage = dynamic(
                 }
                 value={metadata?.ticker}
                 className="text-input"
+                style={{ marginTop: "1rem" }}
               />
               <TextField
                 id="outlined-basic"
@@ -223,6 +227,7 @@ const CreateQuizPage = dynamic(
                 }
                 value={metadata?.chain}
                 className="text-input"
+                style={{ marginTop: "1rem" }}
               />
               <TextField
                 id="outlined-basic"
@@ -236,6 +241,7 @@ const CreateQuizPage = dynamic(
                 }
                 value={metadata?.allow}
                 className="text-input"
+                style={{ marginTop: "1rem" }}
               />
               <TextField
                 id="outlined-basic"
@@ -247,6 +253,7 @@ const CreateQuizPage = dynamic(
                 }
                 value={metadata?.maxEntries}
                 className="text-input"
+                style={{ marginTop: "1rem" }}
               />
               <TextField
                 id="outlined-basic"
@@ -257,6 +264,7 @@ const CreateQuizPage = dynamic(
                 }
                 value={metadata?.note}
                 className="text-input"
+                style={{ marginTop: "1rem" }}
               />
             </div>
 
@@ -271,6 +279,7 @@ const CreateQuizPage = dynamic(
                     onChange={(event) => handleQuestionChange(event, index)}
                     value={question.question}
                     className="text-input question-input"
+                    style={{ marginTop: "1rem" }}
                   />
                   <ul className="options-list">
                     {question.answers.map((answer, answerIndex) => (
@@ -284,6 +293,7 @@ const CreateQuizPage = dynamic(
                           }
                           value={answer.caption}
                           className="text-input"
+                          style={{ marginTop: "1rem" }}
                         />
                         {question.answers.length > 1 && (
                           <button
@@ -311,6 +321,7 @@ const CreateQuizPage = dynamic(
                     onChange={(event) => handleNoteChange(event, index)}
                     value={question.note}
                     className="text-input"
+                    style={{ marginTop: "1rem" }}
                   />
                   <button
                     onClick={() => removeQuestion(index)}
