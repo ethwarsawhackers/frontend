@@ -67,7 +67,7 @@ const CreateQuizPage = dynamic(
       const [showConfetti, setShowConfetti] = useState(false);
       const [connectedWallet, setConnectedWallet] = useState<string[]>([]);
       const [selectedDeploymentOptions, setSelectedDeploymentOptions] =
-        useState<string[]>([]);
+        useState<string>("");
 
       async function initApi() {
         // Replace 'wss://your-node-url' with the WebSocket URL of your Polkadot node
@@ -357,7 +357,7 @@ const CreateQuizPage = dynamic(
             .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
             .connect(userSigner as any);
           const { contractTxId } = await warp.deployFromSourceTx({
-            wallet: userSigner,
+            wallet: userSigner.signer,
             initState: JSON.stringify({
               metadata: {
                 title: metadata.title,
