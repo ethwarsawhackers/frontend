@@ -5,10 +5,10 @@ export default function Home() {
     <main>
       <div className='container'>
         <h1>Quiz App</h1>
-        <Link href='/quiz'>
+        <Link href='/create'>
           <button>Create Quiz</button>
         </Link>
-        <Link href='/quiz'>
+        <Link href='/allQuizzes'>
           <button>View all Quizzes</button>
         </Link>
       </div>
