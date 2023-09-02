@@ -261,7 +261,7 @@ const CreateQuizPage: React.FC = () => {
               />
               <ul className="options-list">
                 {question.answers.map((answer, answerIndex) => (
-                  <li key={answerIndex}>
+                  <li key={answerIndex} className="option-form">
                     <TextField
                       id="outlined-basic"
                       label={`Enter option ${answerIndex + 1}`}
@@ -275,7 +275,7 @@ const CreateQuizPage: React.FC = () => {
                     {question.answers.length > 1 && (
                       <button
                         onClick={() => removeAnswerOption(index, answerIndex)}
-                        className="btn-secondary remove-option-btn"
+                        className="btn-cancel remove-option-btn"
                       >
                         Remove Option
                       </button>
