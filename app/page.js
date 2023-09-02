@@ -8,7 +8,7 @@ export default function Home() {
         <Link href='/create'>
           <button>Create Quiz</button>
         </Link>
-        <Link href='/allQuizzes'>
+        <Link href='/allquizzes'>
           <button>View all Quizzes</button>
         </Link>
       </div>
