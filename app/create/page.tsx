@@ -300,7 +300,10 @@ const CreateQuizPage: React.FC = () => {
           <button onClick={addQuestion} className="btn-secondary add-qn-btn">
             Add Question
           </button>
-          <button onClick={handleSubmit} className="btn-primary">
+          <button
+            onClick={handleSubmit}
+            className="btn-primary submit-quiz-btn"
+          >
             Submit Quiz
           </button>
         </div>
