@@ -15,6 +15,7 @@ import {
   InjectedArweaveSigner,
 } from "warp-contracts-plugin-deploy";
 import { WarpFactory } from "warp-contracts";
+import { Keyring } from '@polkadot/keyring';
 
 import daQuizMeta from "../daQuiz.json";
 
@@ -274,7 +275,7 @@ const CreateQuizPage = dynamic(
 
         if (alephWallet)
         {
-          console.log("Aleph Wallet detected");
+          console.log("Aleph Wallet detected", alephWallet);
           // Construct
           // const wsProvider = new WsProvider("wss://aleph-zero-testnet-rpc.dwellir.com");
           const wsProvider = new WsProvider("wss://ws.test.azero.dev");
@@ -282,9 +283,10 @@ const CreateQuizPage = dynamic(
           // the address we use to use for signing, as injected
           const SENDER = alephWallet.address;
 
-          // finds an injector for an address
+          // Initialize the keyring
+          const keyring = new Keyring({ type: 'sr25519' });
           const caller = await web3FromAddress(SENDER);
-          console.log(caller.accounts)
+          api.setSigner(caller.signer);
 
           const blueprint = new BlueprintPromise(api, daQuizMeta, '0xab90296deb54ef262b070ef27ab756eb88bd05773d75420daea255a9c35583f9');
 
@@ -303,10 +305,11 @@ const CreateQuizPage = dynamic(
 
           let address;
 
-          const unsub = await tx.signAndSend(caller.accounts[0], ({ contract, status }) => {
+          const unsub = await tx.signAndSend(alephWallet.address, ({ contract, status }) => {
             if (status.isInBlock || status.isFinalized)
             {
-              address = contract.address.toString();
+              console.log(contract);
+              address = contract.txHash.toString();
               unsub();
             }
           });
