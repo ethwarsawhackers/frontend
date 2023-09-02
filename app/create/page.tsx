@@ -66,7 +66,7 @@ const CreateQuizPage: React.FC = () => {
   };
 
   const handleQuestionChange = (
-    event: ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
   ) => {
     const updatedQuestions = [...questions];
@@ -75,7 +75,7 @@ const CreateQuizPage: React.FC = () => {
   };
 
   const handleAnswerChange = (
-    event: ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number,
     answerIndex: number
   ) => {
@@ -87,7 +87,7 @@ const CreateQuizPage: React.FC = () => {
   };
 
   const handleNoteChange = (
-    event: ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
   ) => {
     const updatedQuestions = [...questions];
