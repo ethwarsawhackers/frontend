@@ -321,9 +321,12 @@ const CreateQuizPage = dynamic(
           let address;
 
           const unsub = await tx.signAndSend(alephWallet.address, (data) => {
-            if (data.isInBlock || data.isFinalized) {
-              console.log(data);
+
+            if (data.isInBlock || data.isFinalized)
+            {
               address = Buffer.from(data.txHash.buffer).toString();
+              
+              console.log(`New contract address ${address}`, data);
               unsub();
             }
           });
