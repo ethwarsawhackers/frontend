@@ -1,5 +1,6 @@
 :root {
   --primary-color: #007c71; /* Main brand color */
+  --primary-color-2: #b5d4cc; /* Main brand color */
   --primary-hover-color: #24aa48; /* Hover color for primary color */
   --secondary-color: #dca452; /* Secondary color, e.g., for buttons */
   --background-color: #f4f4f4; /* Background color */
@@ -184,6 +185,16 @@ li {
   width: 60%;
 }
 
+.functions-list {
+  display: grid;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-home {
+  width: 40%;
+}
+
 .qn-header {
   padding-top: 2.5rem;
 }
@@ -215,4 +226,20 @@ li {
 
 .go-back-button:hover {
   background-color: lightgray; /* Hover background color */
+}
+
+.nav-icon {
+  width: 5rem;
+  height: auto;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+header {
+  display: flex;
+  text-align: left;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--primary-color-2);
+  color: var(--success-color);
 }
