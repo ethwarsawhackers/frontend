@@ -187,7 +187,7 @@ const CreateQuizPage: React.FC = () => {
           />
           <TextField
             id="outlined-basic"
-            label="Number of tokens"
+            label="No. of tokens"
             variant="outlined"
             onChange={(event) =>
               setMetadata({ ...metadata, title: event.target.value })
