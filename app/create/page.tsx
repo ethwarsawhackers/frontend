@@ -6,8 +6,9 @@ import { contracts, QuizContract, QuizQuestion, Metadata } from "../data";
 import Confetti from "react-confetti";
 import { v4 as uuidv4 } from "uuid";
 import TextField from "@mui/material/TextField";
+import dynamic from "next/dynamic";
 
-const CreateQuizPage: React.FC = () => {
+const CreateQuizPage = dynamic(() => Promise.resolve(() => {
   const emptyEntry = [
     {
       author: "",
@@ -220,7 +221,7 @@ const CreateQuizPage: React.FC = () => {
             label="Allowed participants"
             variant="outlined"
             onChange={(event) =>
-              setMetadata({ ...metadata, allow: event.target.value })
+              setMetadata({ ...metadata, allow: event.target.value.split('\n') })
             }
             value={metadata?.allow}
             className="text-input"
@@ -340,6 +341,9 @@ const CreateQuizPage: React.FC = () => {
       {isSubmitted ? renderSuccessMessage() : renderForm()}
     </div>
   );
-};
+}), { 
+  ssr: false 
+});
+
 
 export default CreateQuizPage;

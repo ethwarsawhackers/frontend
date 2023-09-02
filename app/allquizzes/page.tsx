@@ -1,8 +1,9 @@
 import React from 'react';
 import { contracts } from '../data';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
-const AllContractsPage: React.FC = () => {
+const AllContractsPage = dynamic(() => Promise.resolve(() => {
   return (
     <div className="container">
       <h1>All Contracts</h1>
@@ -22,6 +23,8 @@ const AllContractsPage: React.FC = () => {
       </div>
     </div>
   );
-};
+}), { 
+  ssr: false 
+});
 
 export default AllContractsPage;
