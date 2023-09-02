@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { EntryQuestion, contracts } from "../../../data";
 import Papa from 'papaparse';
+import dynamic from 'next/dynamic';
 
-
-const ExportPage: React.FC = () => {
+const ExportPage = dynamic(() => Promise.resolve(() => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(['']);
     const [finished, setFinished] = useState(false);
@@ -173,6 +173,9 @@ const ExportPage: React.FC = () => {
             )}
         </div>
     );
-};
+}), { 
+    ssr: false 
+  });
+  
 
 export default ExportPage;

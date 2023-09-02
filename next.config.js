@@ -8,6 +8,7 @@ const nextConfig = {
         output: 'export',
         register: true,
         skipWaiting: true,
+        ssr: false
     })
 }
   

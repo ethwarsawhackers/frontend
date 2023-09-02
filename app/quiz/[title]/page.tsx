@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import Link from 'next/link';
 import Confetti from 'react-confetti';
 import { contracts } from "../../data";
+import dynamic from "next/dynamic";
 
-const QuizPage = ({ params }: { params: { title: string; }; }) => {
+const QuizPage = dynamic(() => Promise.resolve(({ params }: { params: { title: string; }; }) => {
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [checked, setChecked] = useState(false);
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
@@ -92,6 +93,9 @@ const QuizPage = ({ params }: { params: { title: string; }; }) => {
       </div>
     </div>
   );
-};
+}), { 
+  ssr: false 
+});
+
 
 export default QuizPage;
