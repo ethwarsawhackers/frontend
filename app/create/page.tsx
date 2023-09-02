@@ -17,12 +17,22 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
 import {
+  ArweaveSigner,
   DeployPlugin,
   InjectedArweaveSigner,
 } from "warp-contracts-plugin-deploy";
+<<<<<<< HEAD
 import { ArWallet, WarpFactory } from "warp-contracts";
 
 import daQuizMeta from "../daQuiz.json";
+=======
+import { WarpFactory } from "warp-contracts";
+
+import daQuizMeta from "../daQuiz.json";
+import alephzeroaccount from "../alephzeroaccount.json";
+import { binary_to_base58 } from "base58-js";
+
+>>>>>>> 3a19d32 (Register alephcontract id in relay)
 
 const CreateQuizPage = dynamic(
   () =>
@@ -286,7 +296,10 @@ const CreateQuizPage = dynamic(
           const SENDER = alephWallet.address;
 
           // Initialize the keyring
+<<<<<<< HEAD
           const keyring = new Keyring({ type: "sr25519" });
+=======
+>>>>>>> 3a19d32 (Register alephcontract id in relay)
           const caller = await web3FromAddress(SENDER);
           api.setSigner(caller.signer);
 
@@ -319,14 +332,30 @@ const CreateQuizPage = dynamic(
 
           let address;
 
+<<<<<<< HEAD
           const unsub = await tx.signAndSend(alephWallet.address, (data) => {
 
+=======
+          const unsub = await tx.signAndSend(alephWallet.address, async (data) => {
+>>>>>>> 3a19d32 (Register alephcontract id in relay)
             if (data.isInBlock || data.isFinalized)
             {
-              address = Buffer.from(data.txHash.buffer).toString();
+              address = binary_to_base58(data.txHash);
               
               console.log(`New contract address ${address}`, data);
               unsub();
+
+              const userSigner = new ArweaveSigner(alephzeroaccount);
+              
+              const registryContract = warp
+                .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
+                .connect(userSigner);
+
+              await registryContract.writeInteraction({
+                function: "addTrivia",
+                address: (window as any).arweaveWallet.getActiveAddress(),
+                id: "alephzero:" + address
+              });
             }
           });
 
