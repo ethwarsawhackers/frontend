@@ -186,9 +186,14 @@ li {
 }
 
 .functions-list {
-  display: grid;
+  width: 100%;
+  display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.function-link {
+  width: 100%;
 }
 
 .btn-home {
@@ -250,4 +255,11 @@ header {
   padding: 1rem;
   background-color: var(--primary-color-2);
   color: var(--success-color);
+}
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
