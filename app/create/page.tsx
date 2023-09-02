@@ -7,11 +7,22 @@ import Confetti from "react-confetti";
 import { v4 as uuidv4 } from "uuid";
 import TextField from "@mui/material/TextField";
 import dynamic from "next/dynamic";
-import wallet from "../components/Arweave";
+import { ApiPromise, WsProvider } from "@polkadot/api";
+import {
+  DeployPlugin,
+  InjectedArweaveSigner,
+} from "warp-contracts-plugin-deploy";
+import { WarpFactory } from "warp-contracts";
+
+const warp = WarpFactory.forMainnet().use(new DeployPlugin());
 
 const CreateQuizPage = dynamic(
   () =>
     Promise.resolve(() => {
+      // const wall = window.arweaveWallet;
+      // console.log(wall);
+      console.log(`ARWEAVE WALLET: ${window.arweaveWallet}`);
+
       const emptyEntry = [
         {
           author: "",
@@ -112,9 +123,15 @@ const CreateQuizPage = dynamic(
         setIsSubmitted(true);
       };
 
-      const handleSubmit = async () => {
-        await wallet.connect();
-        console.log(`Creating form with address ${wallet.address}`);
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        const { arweaveWallet } = window;
+        const { alephWallet } = window;
+        const { web3FromAddress } = await import("@polkadot/extension-dapp");
+        if (!arweaveWallet && !alephWallet) {
+          alert("Please login with a wallet to continue!");
+          return; // Prevent further processing if wallet is not installed
+        }
 
         // Check if any of the required fields in the metadata are empty
         if (
@@ -122,7 +139,6 @@ const CreateQuizPage = dynamic(
           !metadata?.tokens ||
           !metadata?.ticker ||
           !metadata?.chain ||
-          metadata?.allow.length === 0 ||
           !metadata?.maxEntries ||
           !metadata?.note
         ) {
@@ -158,6 +174,63 @@ const CreateQuizPage = dynamic(
 
         console.log("Updated Contracts:", contracts);
 
+        if (alephWallet) {
+          console.log("Aleph Wallet detected");
+          // Construct
+          // const wsProvider = new WsProvider("wss://aleph-zero-testnet-rpc.dwellir.com");
+          const wsProvider = new WsProvider("wss://ws.test.azero.dev");
+          const api = await ApiPromise.create({ provider: wsProvider });
+          // the address we use to use for signing, as injected
+          const SENDER = alephWallet.address;
+
+          // finds an injector for an address
+          const injector = await web3FromAddress(SENDER);
+
+          // sign and send our transaction - notice here that the address of the account
+          // (as retrieved injected) is passed through as the param to the `signAndSend`,
+          // the API then calls the extension to present to the user and get it signed.
+          // Once complete, the api sends the tx + signature via the normal process
+          const txHash = api.tx.balances
+            .transfer(SENDER, 123456)
+            .signAndSend(SENDER, { signer: injector.signer }, ({ status }) => {
+              if (status.isInBlock) {
+                console.log("in a block");
+              } else if (status.isFinalized) {
+                console.log("finalized");
+              }
+            });
+
+          console.log(`Submitted with hash ${txHash}`);
+        } else {
+          // * Arweave
+          console.log(
+            `Creating form with address ${arweaveWallet.getActiveAddress()}`
+          );
+          const userSigner = new InjectedArweaveSigner(arweaveWallet);
+          await userSigner.setPublicKey();
+          const { contractTxId } = await warp.deployFromSourceTx({
+            arweaveWallet: userSigner,
+            initState: JSON.stringify({
+              metadata: {
+                title: metadata.title,
+                tokens: metadata.tokens,
+                ticker: metadata.ticker,
+                chain: metadata.chain,
+                allow: metadata.allow,
+                maxEntries: metadata.maxEntries,
+                note: btoa(metadata.note),
+                style: {
+                  background: "color: #04040",
+                  text: "color: #f4f4f4",
+                },
+              },
+              entries: [],
+              questions: questions,
+            }),
+            srcTxId: "bjzoOHRcCwikYuiPVwqIKMX6tOqK1kYImqA1ESHN1Ew",
+          });
+        }
+
         resetForm();
 
         // Show confetti upon successful submission
@@ -181,8 +254,7 @@ const CreateQuizPage = dynamic(
           <div className="container">
             <h1>Create Quiz</h1>
 
-            <h2 className="quiz-details-header">Quiz Details</h2>
-            {/* Metadata Section */}
+            <h2 className="quiz-details-header">Details</h2>
             <div className="quiz-metadata">
               <TextField
                 id="outlined-basic"
@@ -236,7 +308,7 @@ const CreateQuizPage = dynamic(
                 onChange={(event) =>
                   setMetadata({
                     ...metadata,
-                    allow: event.target.value.split("\n"),
+                    allow: event.target.value.split(","),
                   })
                 }
                 value={metadata?.allow}
@@ -352,7 +424,7 @@ const CreateQuizPage = dynamic(
         return (
           <div>
             {renderConfetti()}
-            <h1>Quiz Created Successfully!</h1>
+            <h1>Quiz Created!</h1>
             <button onClick={() => setIsSubmitted(false)}>
               Create Another Quiz
             </button>
