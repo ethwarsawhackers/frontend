@@ -233,6 +233,10 @@ li {
   background-color: lightgray; /* Hover background color */
 }
 
+.contract-buttons {
+  display: flex;
+  justify-content: space-between;
+}
 .nav-icon {
   width: 5rem;
   height: auto;

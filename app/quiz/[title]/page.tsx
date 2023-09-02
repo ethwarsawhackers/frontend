@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from 'next/link';
+import Confetti from 'react-confetti';
 import { contracts } from "../../data";
 
 const QuizPage = ({ params }: { params: { title: string; }; }) => {
@@ -78,6 +79,14 @@ const QuizPage = ({ params }: { params: { title: string; }; }) => {
                 <button>Go back to home</button>
               </Link>
             </div>
+            {/* Add confetti when showResult is true */}
+            <Confetti
+              width={800} // Customize the width of the confetti container
+              height={600} // Customize the height of the confetti container
+              numberOfPieces={200} // Adjust the number of confetti pieces
+              recycle={false} // Set to true if you want confetti to recycle
+              gravity={0.2} // Adjust the gravity to control the confetti falling speed
+            />
           </div>
         )}
       </div>
