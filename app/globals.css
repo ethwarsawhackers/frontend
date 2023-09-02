@@ -107,3 +107,8 @@ li {
 .go-back-button:hover {
   background-color: lightgray; /* Hover background color */
 }
+
+.contract-buttons {
+  display: flex;
+  justify-content: space-between;
+}

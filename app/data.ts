@@ -65,9 +65,46 @@ export const contracts: QuizContract[] = [{
             { 
                 "id": "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
                 "answers": ["3"]
+            },
+            { 
+              "id": "6ba7b811-9dad-11d1-80b4-00c04fd430c9",
+              "answers": ["3"]
+            },
+            { 
+              "id": "6ba7b812-9dad-11d1-80b4-00c04fd430c7",
+              "answers": ["3"]
+            },
+            { 
+              "id": "6ba7b813-9dad-11d1-80b4-00c04fd430c6",
+              "answers": ["3"]
             }
         ]
-    }
+    },
+    {
+      "author": "0xe2445a61dE107fc53dbB741f09dwdC7bB6cdF49b",
+      "questions": [
+          { 
+              "id": "550e8400-e29b-41d4-a716-446655440000",
+              "answers": ["2"]
+          },
+          { 
+              "id": "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
+              "answers": ["1"]
+          },
+          { 
+            "id": "6ba7b811-9dad-11d1-80b4-00c04fd430c9",
+            "answers": ["3"]
+          },
+          { 
+            "id": "6ba7b812-9dad-11d1-80b4-00c04fd430c7",
+            "answers": ["3"]
+          },
+          { 
+            "id": "6ba7b813-9dad-11d1-80b4-00c04fd430c6",
+            "answers": ["3"]
+          }
+      ]
+    },
   ],
   "questions": [
   {
