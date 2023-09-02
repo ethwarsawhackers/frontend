@@ -1,25 +1,37 @@
+:root {
+  --primary-color: #007c71; /* Main brand color */
+  --secondary-color: #dca452; /* Secondary color, e.g., for buttons */
+  --background-color: #f4f4f4; /* Background color */
+  --text-color: #333; /* Default text color */
+  --accent-color: #bc570e; /* Accent color for highlights */
+  --success-color: #005237; /* Success color for positive actions */
+  --error-color: #dc3545; /* Error color for alerts */
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden;
-  background-color: #000925;
+  background-color: var(--background-color);
 }
 
 main {
   padding: 1rem;
 }
 
-h1, h2 {
-  color: #eee;
+h1,
+h2 {
+  color: (var--text-color);
 }
 
 h3 {
   padding-bottom: 2rem;
-  color: #000105;
+  color: (var--text-color);
   font-size: 1.8rem;
 }
 
@@ -28,10 +40,11 @@ button {
   width: 100%;
   margin-top: 12px;
   font-size: 1rem;
-  border-radius: 4px;
+  border-radius: 1rem;
   cursor: pointer;
-  background-color: #808080;
-  color: #f8f8f8;
+  background-color: var(--secondary-color);
+  color: var(--background-color);
+  border-width: 0;
 }
 
 .btn-disabled {
@@ -62,6 +75,7 @@ li {
   width: 100%;
   margin: auto;
   padding: 1rem;
+  text-align: center;
 }
 
 .quiz-container {
