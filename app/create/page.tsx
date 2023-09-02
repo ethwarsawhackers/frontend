@@ -6,6 +6,7 @@ import { contracts, QuizContract, QuizQuestion, Metadata } from "../data";
 import Confetti from "react-confetti";
 import { v4 as uuidv4 } from "uuid";
 import TextField from "@mui/material/TextField";
+import wallet from "../components/Arweave";
 
 const CreateQuizPage: React.FC = () => {
   const emptyEntry = [
@@ -107,7 +108,10 @@ const CreateQuizPage: React.FC = () => {
     setIsSubmitted(true);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    await wallet.connect();
+    console.log(`Creating form with address ${wallet.address}`);
+
     // Check if any of the required fields in the metadata are empty
     if (
       !metadata?.title ||
