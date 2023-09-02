@@ -235,6 +235,10 @@ li {
   margin-right: 1rem;
 }
 
+.icon-name {
+  cursor: pointer;
+}
+
 header {
   display: flex;
   text-align: left;

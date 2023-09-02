@@ -26,7 +26,9 @@ export default function RootLayout({ children }) {
               className="nav-icon"
             ></Image>
           </Link>
-          <h2>Magnetify</h2>
+          <h2 href="/" className="icon-name">
+            Magnetify
+          </h2>
         </header>
         {children}
       </body>

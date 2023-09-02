@@ -4,7 +4,8 @@ export default function Home() {
   return (
     <main>
       <div className="container">
-        <h1>Quiz App</h1>
+        <h1>Magnetify</h1>
+        <sub>Onboarding the next billion users</sub>
         <div className="functions-list">
           <Link href="/create">
             <button className="btn-secondary btn-home">Create Quiz</button>
