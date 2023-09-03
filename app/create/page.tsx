@@ -22,10 +22,7 @@ import daQuizMeta from "../daQuiz.json";
 const CreateQuizPage = dynamic(
   () =>
     Promise.resolve(() => {
-      // const wall = window.arweaveWallet;
-      // console.log(wall);
       const warp = WarpFactory.forMainnet().use(new DeployPlugin());
-      console.log(`ARWEAVE WALLET: ${window.arweaveWallet}`);
 
       const emptyEntry = [
         {
