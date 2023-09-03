@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { BlueprintPromise } from '@polkadot/api-contract';
-import { ApiPromise, WsProvider } from '@polkadot/api';
-import Arweave from 'arweave/web';
+import { BlueprintPromise } from "@polkadot/api-contract";
+import { ApiPromise, WsProvider } from "@polkadot/api";
+import Arweave from "arweave/web";
 import Link from "next/link";
 import { contracts, QuizContract, QuizQuestion, Metadata } from "../data";
 import Confetti from "react-confetti";
@@ -21,10 +21,6 @@ const warp = WarpFactory.forMainnet().use(new DeployPlugin());
 const CreateQuizPage = dynamic(
   () =>
     Promise.resolve(() => {
-      // const wall = window.arweaveWallet;
-      // console.log(wall);
-      console.log(`ARWEAVE WALLET: ${window.arweaveWallet}`);
-
       const emptyEntry = [
         {
           author: "",
@@ -52,30 +48,32 @@ const CreateQuizPage = dynamic(
         },
       ];
 
-      const [questions, setQuestions] = useState<QuizQuestion[]>(emptyQuestions);
+      const [questions, setQuestions] =
+        useState<QuizQuestion[]>(emptyQuestions);
       const [metadata, setMetadata] = useState<Metadata>(emptyMetadata);
       const [isSubmitted, setIsSubmitted] = useState(false);
       const [showConfetti, setShowConfetti] = useState(false);
       const [connectedWallet, setConnectedWallet] = useState<string[]>([]);
-      const [selectedDeploymentOptions, setSelectedDeploymentOptions] = useState<string[]>([]);
+      const [selectedDeploymentOptions, setSelectedDeploymentOptions] =
+        useState<string[]>([]);
 
-      async function initApi () {
+      async function initApi() {
         // Replace 'wss://your-node-url' with the WebSocket URL of your Polkadot node
-        const provider = new WsProvider('wss://aleph-zero-testnet-rpc.dwellir.com');
+        const provider = new WsProvider(
+          "wss://aleph-zero-testnet-rpc.dwellir.com"
+        );
         const api = await ApiPromise.create({ provider });
 
         return api;
       }
 
       // Check if the user is connected to the Polkadot.js wallet
-      async function isConnectedToPolkadotJsWallet () {
-        try
-        {
+      async function isConnectedToPolkadotJsWallet() {
+        try {
           const api = await initApi();
 
           // Check if the API is connected
-          if (!api.isConnected)
-          {
+          if (!api.isConnected) {
             return false;
           }
 
@@ -92,19 +90,17 @@ const CreateQuizPage = dynamic(
           const allAccounts = await web3Accounts();
           console.log(allAccounts);
 
-          if (allAccounts.length === 0)
-          {
+          if (allAccounts.length === 0) {
             return false;
           }
 
           // You can also log the available accounts if needed
-          console.log('Available accounts:', allAccounts);
+          console.log("Available accounts:", allAccounts);
 
           // If there are accounts available, the user is connected to Polkadot.js wallet
           return true;
-        } catch (error)
-        {
-          console.error('Error checking Polkadot.js wallet connection:', error);
+        } catch (error) {
+          console.error("Error checking Polkadot.js wallet connection:", error);
           return false;
         }
       }
@@ -112,40 +108,48 @@ const CreateQuizPage = dynamic(
       // Initialize the Arweave instance
       const arweave = Arweave.init({
         // Replace 'your-arweave-node-url' with the URL of your Arweave node
-        host: 'arweave.net',
+        host: "arweave.net",
         port: 443, // Default Arweave port
-        protocol: 'https', // Use HTTPS
+        protocol: "https", // Use HTTPS
         timeout: 20000, // Optional timeout in milliseconds (adjust as needed)
       });
 
       // Check if the user is connected to the Arweave wallet
-      async function isConnectedToArweaveWallet () {
-        return (typeof window.arWallet)!="undefined"
+      async function isConnectedToArweaveWallet() {
+        return typeof window.arWallet != "undefined";
       }
 
       useEffect(() => {
-        async function checkWalletConnection () {
-          if (await isConnectedToPolkadotJsWallet())
-          {
+        async function checkWalletConnection() {
+          if (await isConnectedToPolkadotJsWallet()) {
             // User is connected to Polkadot.js wallet, add 'polkadotjs' to connectedWallet
-            setConnectedWallet((prevConnectedWallets) => [...prevConnectedWallets, "polkadotjs"]);
+            setConnectedWallet((prevConnectedWallets) => [
+              ...prevConnectedWallets,
+              "polkadotjs",
+            ]);
           }
-          if (await isConnectedToArweaveWallet())
-          {
+          if (await isConnectedToArweaveWallet()) {
             // User is connected to Arweave wallet, add 'arweave' to connectedWallet
-            setConnectedWallet((prevConnectedWallets) => [...prevConnectedWallets, "arweave"]);
+            setConnectedWallet((prevConnectedWallets) => [
+              ...prevConnectedWallets,
+              "arweave",
+            ]);
           }
         }
 
         checkWalletConnection();
       }, []);
 
-      const handleDeploymentOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const handleDeploymentOptionChange = (
+        event: ChangeEvent<HTMLInputElement>
+      ) => {
         const option = event.target.value;
-        if (!selectedDeploymentOptions.includes(option))
-        {
+        if (!selectedDeploymentOptions.includes(option)) {
           // If the option is not selected, add it
-          setSelectedDeploymentOptions((prevOptions) => [...prevOptions, option]);
+          setSelectedDeploymentOptions((prevOptions) => [
+            ...prevOptions,
+            option,
+          ]);
         }
       };
 
@@ -221,8 +225,7 @@ const CreateQuizPage = dynamic(
         const { arweaveWallet } = window;
         const { alephWallet } = window;
         const { web3FromAddress } = await import("@polkadot/extension-dapp");
-        if (!arweaveWallet && !alephWallet)
-        {
+        if (!arweaveWallet && !alephWallet) {
           alert("Please login with a wallet to continue!");
           return; // Prevent further processing if wallet is not installed
         }
@@ -235,8 +238,7 @@ const CreateQuizPage = dynamic(
           !metadata?.chain ||
           !metadata?.maxEntries ||
           !metadata?.note
-        )
-        {
+        ) {
           alert("Please fill in all fields before submitting.");
           return; // Prevent further processing if validation fails
         }
@@ -246,8 +248,7 @@ const CreateQuizPage = dynamic(
           questions.some(
             (q) => !q.question || q.answers.some((a) => !a.caption)
           )
-        )
-        {
+        ) {
           alert("Please fill in all questions and answers.");
           return; // Prevent further processing if validation fails
         }
@@ -270,8 +271,7 @@ const CreateQuizPage = dynamic(
 
         // console.log("Updated Contracts:", contracts);
 
-        if (alephWallet)
-        {
+        if (alephWallet) {
           console.log("Aleph Wallet detected");
           // Construct
           // const wsProvider = new WsProvider("wss://aleph-zero-testnet-rpc.dwellir.com");
@@ -283,40 +283,49 @@ const CreateQuizPage = dynamic(
           // finds an injector for an address
           const caller = await web3FromAddress(SENDER);
 
-          const blueprint = new BlueprintPromise(api, metadata, '5FjsGWBHjiJynQYprSSGQXs7NgFTC6diU7SSrgsLv5gskbNZ');
+          const blueprint = new BlueprintPromise(
+            api,
+            metadata,
+            "5FjsGWBHjiJynQYprSSGQXs7NgFTC6diU7SSrgsLv5gskbNZ"
+          );
 
-          const gasLimit = 1E11;
+          const gasLimit = 1e11;
           // a limit to how much Balance to be used to pay for the storage created by the instantiation
           // if null is passed, unlimited balance can be used
           const storageDepositLimit = null;
-          // used to derive contract address, 
+          // used to derive contract address,
           // use null to prevent duplicate contracts
-          const salt = Uint8Array.from(uuidv4(), x => x.charCodeAt(0));
+          const salt = Uint8Array.from(uuidv4(), (x) => x.charCodeAt(0));
 
-          const tx = blueprint.tx.default({ gasLimit, storageDepositLimit, salt });
+          const tx = blueprint.tx.default({
+            gasLimit,
+            storageDepositLimit,
+            salt,
+          });
 
           let address;
 
-          const unsub = await tx.signAndSend(caller.accounts[0], ({ contract, status }) => {
-            if (status.isInBlock || status.isFinalized)
-            {
-              address = contract.address.toString();
-              unsub();
+          const unsub = await tx.signAndSend(
+            caller.accounts[0],
+            ({ contract, status }) => {
+              if (status.isInBlock || status.isFinalized) {
+                address = contract.address.toString();
+                unsub();
+              }
             }
-          });
+          );
 
           console.log(`New contract address ${address}`);
-        } else
-        {
+        } else {
           // * Arweave
           console.log(
             `Creating form with address ${arweaveWallet.getActiveAddress()}`
           );
           const userSigner = new InjectedArweaveSigner(arWallet);
           await userSigner.setPublicKey();
-          const registryContract=warp
-          .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
-          .connect(userSigner)
+          const registryContract = warp
+            .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
+            .connect(userSigner);
           const { contractTxId } = await warp.deployFromSourceTx({
             wallet: userSigner,
             initState: JSON.stringify({
@@ -340,8 +349,8 @@ const CreateQuizPage = dynamic(
           });
           await registryContract.writeInteraction({
             function: "addTrivia",
-            address:window.arweaveWallet.getActiveAddress(),
-            id:"arweave:"+contractTxId
+            address: window.arweaveWallet.getActiveAddress(),
+            id: "arweave:" + contractTxId,
           });
         }
 
@@ -357,8 +366,7 @@ const CreateQuizPage = dynamic(
       };
 
       const renderConfetti = () => {
-        if (showConfetti)
-        {
+        if (showConfetti) {
           return <Confetti />;
         }
         return null;
@@ -524,10 +532,10 @@ const CreateQuizPage = dynamic(
               >
                 Add Question
               </button>
-              <div style={{ margin: '16px' }}>
+              <div style={{ margin: "16px" }}>
                 <h2>Choose Deployment Option:</h2>
-                <div style={{ margin: '16px' }}>
-                  <label style={{ marginBottom: '8px', display: 'block' }}>
+                <div style={{ margin: "16px" }}>
+                  <label style={{ marginBottom: "8px", display: "block" }}>
                     <input
                       type="radio"
                       value="arweave"
@@ -535,9 +543,11 @@ const CreateQuizPage = dynamic(
                       onChange={handleDeploymentOptionChange}
                       hidden={!connectedWallet.includes("arweave")} // Disable if Arweave wallet is not connected
                     />
-                    {connectedWallet.includes("arweave") ? 'Deploy on Arweave' : 'Not connected to Arweave wallet'}
+                    {connectedWallet.includes("arweave")
+                      ? "Deploy on Arweave"
+                      : "Not connected to Arweave wallet"}
                   </label>
-                  <label style={{ marginBottom: '8px', display: 'block' }}>
+                  <label style={{ marginBottom: "8px", display: "block" }}>
                     <input
                       type="radio"
                       value="polkadotjs"
@@ -545,7 +555,9 @@ const CreateQuizPage = dynamic(
                       onChange={handleDeploymentOptionChange}
                       hidden={!connectedWallet.includes("polkadotjs")} // Disable if Polkadot.js wallet is not connected
                     />
-                    {connectedWallet.includes("polkadotjs") ? 'Deploy on AlephZero' : 'Not connected to Polkadot.js wallet'}
+                    {connectedWallet.includes("polkadotjs")
+                      ? "Deploy on AlephZero"
+                      : "Not connected to Polkadot.js wallet"}
                   </label>
                 </div>
               </div>
@@ -589,5 +601,3 @@ const CreateQuizPage = dynamic(
 );
 
 export default CreateQuizPage;
-
-
