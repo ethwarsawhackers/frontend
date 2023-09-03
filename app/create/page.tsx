@@ -296,7 +296,7 @@ const CreateQuizPage = dynamic(
           const blueprint = new BlueprintPromise(
             api,
             daQuizMeta,
-            "0xab90296deb54ef262b070ef27ab756eb88bd05773d75420daea255a9c35583f9"
+            "0xde185508e2e58bae9f5b8d6955356a25fa6c106cabd53894bfa1c1fe996cab85"
           );
 
           const gasLimit = 1e11;
@@ -337,7 +337,7 @@ const CreateQuizPage = dynamic(
 
               await registryContract.writeInteraction({
                 function: "addTrivia",
-                address: (window as any).arweaveWallet.getActiveAddress(),
+                address: SENDER,
                 id: "alephzero:" + address
               });
             }

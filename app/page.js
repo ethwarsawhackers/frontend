@@ -67,6 +67,7 @@ export default function Home() {
 
     console.log(`Chosen account: ${allAccounts[0].address}`);
     window.alephWallet = allAccounts[0];
+    window.walletAddress = allAccounts[0].address;
     setHasAleph(true);
     setOpen(true);
 

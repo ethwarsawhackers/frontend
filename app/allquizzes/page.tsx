@@ -40,7 +40,8 @@ const AllContractsPage = dynamic(
         )
           .then((res) => res.json())
           .then((r) => {
-            let fetchedContractIds = r.result[0];
+            let fetchedContractIds = r.result[0] || [];
+            
             Promise.all(
               fetchedContractIds.map(async (fcid) => {
                 console.log(fcid);
