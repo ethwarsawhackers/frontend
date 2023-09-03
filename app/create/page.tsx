@@ -468,15 +468,16 @@ const CreateQuizPage = dynamic(
                 style={{ marginTop: "1rem" }}
               />
               <TextField
-                id="outlined-basic"
+                id="outlined-multiline-static"
                 label="Description"
-                variant="outlined"
+                multiline
+                rows={4}
                 onChange={(event) =>
                   setMetadata({ ...metadata, note: event.target.value })
                 }
                 value={metadata?.note}
                 className="text-input"
-                style={{ marginTop: "1rem" }}
+                style={{ marginTop: "1rem", width: "50%" }}
               />
             </div>
 
