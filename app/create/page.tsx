@@ -357,7 +357,7 @@ const CreateQuizPage = dynamic(
             .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
             .connect(userSigner as any);
           const { contractTxId } = await warp.deployFromSourceTx({
-            wallet: userSigner.signer,
+            wallet: userSigner as any,
             initState: JSON.stringify({
               metadata: {
                 title: metadata.title,
