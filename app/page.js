@@ -15,6 +15,7 @@ export default function Home() {
       setHasArweave(true);
       setOpen(true);
       window.arWallet = wallet;
+      window.walletAddress = window.arweaveWallet.getActiveAddress();
     }
   }
 

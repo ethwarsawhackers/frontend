@@ -64,7 +64,7 @@ const AllContractsPage = dynamic(
             {contracts.map((contract, index) => (
               <div key={index} className="contract-item">
                 <div className="contract-buttons">
-                  <Link className="contract-button" href={`/quiz/${encodeURIComponent(contract.id)}`}>
+                  <Link className="contract-button" href={`/quiz/arweave:${encodeURIComponent(contract.id)}`}>
                     <button>{contract.metadata.title}</button>
                   </Link>
                   <button className="contract-button" onClick={() => shareQuizLink(contract.id)}>Share Link</button>
