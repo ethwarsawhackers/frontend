@@ -319,7 +319,9 @@ const CreateQuizPage = dynamic(
           );
           const userSigner = new InjectedArweaveSigner(arWallet);
           await userSigner.setPublicKey();
-          console.log(userSigner)
+          const registryContract=warp
+          .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
+          .connect(window.arweaveWallet)
           const { contractTxId } = await warp.deployFromSourceTx({
             wallet: userSigner,
             initState: JSON.stringify({
@@ -340,6 +342,11 @@ const CreateQuizPage = dynamic(
               questions: questions,
             }),
             srcTxId: "bjzoOHRcCwikYuiPVwqIKMX6tOqK1kYImqA1ESHN1Ew",
+          });
+          await registryContract.writeInteraction({
+            function: "addTrivia",
+            address:window.arweaveWallet.getActiveAddress(),
+            id:"arweave:"+contractTxId
           });
         }
 
