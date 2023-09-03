@@ -51,7 +51,7 @@ export default function Home() {
     );
     // returns an array of all the injected sources
     // (this needs to be called first, before other requests)
-    const allInjected = await web3Enable("my cool dapp");
+    const allInjected = await web3Enable("Magnetify");
     console.log(allInjected);
 
     // returns an array of { address, meta: { name, source } }
