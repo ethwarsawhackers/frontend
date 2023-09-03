@@ -16,13 +16,14 @@ import {
 } from "warp-contracts-plugin-deploy";
 import { WarpFactory } from "warp-contracts";
 
-const warp = WarpFactory.forMainnet().use(new DeployPlugin());
+
 
 const CreateQuizPage = dynamic(
   () =>
     Promise.resolve(() => {
       // const wall = window.arweaveWallet;
       // console.log(wall);
+      const warp = WarpFactory.forMainnet().use(new DeployPlugin());
       console.log(`ARWEAVE WALLET: ${window.arweaveWallet}`);
 
       const emptyEntry = [
@@ -120,7 +121,7 @@ const CreateQuizPage = dynamic(
 
       // Check if the user is connected to the Arweave wallet
       async function isConnectedToArweaveWallet () {
-        return (typeof window.arWallet)!="undefined"
+        return (typeof (window as any)?.arWallet)!="undefined"
       }
 
       useEffect(() => {
@@ -218,8 +219,8 @@ const CreateQuizPage = dynamic(
 
       const handleSubmit = async (e) => {
         e.preventDefault();
-        const { arweaveWallet } = window;
-        const { alephWallet } = window;
+        const { arweaveWallet } = (window as any);
+        const { alephWallet } = (window as any);
         const { web3FromAddress } = await import("@polkadot/extension-dapp");
         if (!arweaveWallet && !alephWallet)
         {
