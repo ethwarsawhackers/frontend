@@ -74,7 +74,7 @@ const QuizPage = dynamic(
         } else
         {
 
-          const { arWallet } = window as any;
+          const { arweaveWallet } = window as any;
           const { alephWallet } = window as any;
 
           if (alephWallet) {
@@ -99,7 +99,7 @@ const QuizPage = dynamic(
               }});
           } else {
             const userSigner = new InjectedArweaveSigner(
-              arWallet
+              arweaveWallet
             );
             await userSigner.setPublicKey();
             const quizContract = warp

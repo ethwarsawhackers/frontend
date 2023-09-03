@@ -231,7 +231,7 @@ const CreateQuizPage = dynamic(
 
       const handleSubmit = async (e) => {
         e.preventDefault();
-        const { arWallet: arWallet } = window as any;
+        const { arWallet } = window as any;
         const { alephWallet } = window as any;
         const { web3FromAddress } = await import("@polkadot/extension-dapp");
         if (!arWallet && !alephWallet) {
@@ -336,7 +336,7 @@ const CreateQuizPage = dynamic(
         } else {
           // * Arweave
           console.log(
-            `Creating form with address ${arWallet.getActiveAddress()}`
+            `Creating form with address ${(window as any).arweaveWallet.getActiveAddress()}`
           );
           const userSigner = new InjectedArweaveSigner(
             (window as any).arWallet
@@ -368,7 +368,7 @@ const CreateQuizPage = dynamic(
           });
           await registryContract.writeInteraction({
             function: "addTrivia",
-            address: (window as any).arWallet.getActiveAddress(),
+            address: (window as any).arweaveWallet.getActiveAddress(),
             id: "arweave:" + contractTxId,
           });
         }
