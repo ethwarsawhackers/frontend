@@ -346,7 +346,7 @@ const CreateQuizPage = dynamic(
           });
           await registryContract.writeInteraction({
             function: "addTrivia",
-            address: window.arweaveWallet.getActiveAddress(),
+            address: (window as any).arweaveWallet.getActiveAddress(),
             id: "arweave:" + contractTxId
           });
         }
