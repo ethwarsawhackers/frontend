@@ -190,10 +190,14 @@ li {
 }
 
 .add-qn-btn {
+  margin-top: 2rem;
   width: 50%;
 }
 
-.remove-qn-btn,
+.remove-qn-btn {
+  margin-top: 1rem;
+}
+
 .remove-option-btn {
   width: 35%;
   margin-top: 1rem;
@@ -430,4 +434,8 @@ header {
   100% {
     background-positon-x: 0px;
   }
+}
+
+.deploy-header {
+  padding-top: 2rem;
 }

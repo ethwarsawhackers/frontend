@@ -1,14 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Alert, Snackbar } from "@mui/material";
 import wallet from "./components/Arweave";
+import React from "react";
+import Lottie from "react-lottie";
+import animationURL from "./blockchain.json";
+
 export default function Home() {
   const [open, setOpen] = useState(false);
+  const [noAlephOpen, setNoAlephOpen] = useState(false);
   const [hasArweave, setHasArweave] = useState(false);
   const [hasAleph, setHasAleph] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // if wallet already connected, set hasArweave to true
+  useEffect(() => {
+    if (wallet.address) {
+      setHasArweave(true);
+    }
+  });
 
   async function connectArweave() {
+    console.log("Connecting to Arweave");
     await wallet.connect();
     if (wallet.address) {
       console.log("Wallet Address: " + wallet.address);
@@ -16,6 +30,9 @@ export default function Home() {
       setOpen(true);
       window.arWallet = wallet;
       window.walletAddress = window.arweaveWallet.getActiveAddress();
+      setIsLoading(false);
+    } else {
+      console.log("Wallet Not Connected");
     }
   }
 
@@ -44,6 +61,7 @@ export default function Home() {
 
     if (allAccounts.length === 0) {
       console.log("No accounts found");
+      setNoAlephOpen(true);
       return;
     }
 
@@ -80,6 +98,27 @@ export default function Home() {
     setOpen(false);
   };
 
+  const handleAlephClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setNoAlephOpen(false);
+  };
+
+  const handleCreate = () => {
+    setIsLoading(true);
+  };
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationURL,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
     <main>
       <div className="container home-page">
@@ -87,37 +126,52 @@ export default function Home() {
         <sub className="tagline">
           <i>Amplify Your Knowledge, Magnetize Your Future</i>
         </sub>
-
         {hasAleph || hasArweave ? (
-          <div className="functions-list">
-            <Link
-              href={{
-                pathname: "/create",
-              }}
-              className="function-link"
-            >
-              <button className="btn-secondary btn-home">Create Quiz</button>
-            </Link>
-            <Link href="/allquizzes" className="function-link">
-              <button className="btn-secondary btn-home">
-                View all Quizzes
-              </button>
-            </Link>
-            {hasArweave ? (
-              <button
-                className="btn-cancel btn-home"
-                onClick={disconnectArweave}
+          isLoading ? (
+            <div className="loading">
+              <Lottie options={defaultOptions} height={400} width={400} />
+              <h2>Opening Quiz...</h2>
+            </div>
+          ) : (
+            <div className="functions-list">
+              <Link
+                href={{
+                  pathname: "/create",
+                }}
+                className="function-link"
               >
-                Disconnect Arweave
-              </button>
-            ) : hasAleph ? (
-              <button className="btn-cancel btn-home" onClick={disconnectAleph}>
-                Disconnect Aleph
-              </button>
-            ) : (
-              <div></div>
-            )}
-          </div>
+                <button
+                  className="btn-secondary btn-home"
+                  onClick={handleCreate}
+                >
+                  Create Quiz
+                </button>
+              </Link>
+              <Link href="/allquizzes" className="function-link">
+                <button className="btn-secondary btn-home">
+                  View all Quizzes
+                </button>
+              </Link>
+
+              {hasArweave ? (
+                <button
+                  className="btn-cancel btn-home"
+                  onClick={disconnectArweave}
+                >
+                  Disconnect Arweave
+                </button>
+              ) : hasAleph ? (
+                <button
+                  className="btn-cancel btn-home"
+                  onClick={disconnectAleph}
+                >
+                  Disconnect Aleph
+                </button>
+              ) : (
+                <div></div>
+              )}
+            </div>
+          )
         ) : (
           <div>
             <h2 className="connect-header"> Connect Wallet</h2>
@@ -138,7 +192,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* Alert success if hasAleph or hasArweave */}
         {hasAleph || hasArweave ? (
           <Snackbar open={open} autoHideDuration={3000}>
             <Alert
@@ -153,6 +206,15 @@ export default function Home() {
         ) : (
           () => {}
         )}
+        <Snackbar open={noAlephOpen} autoHideDuration={3000}>
+          <Alert
+            severity="error"
+            className="alert-error-msg"
+            onClose={handleAlephClose}
+          >
+            <strong>Error!</strong> You have no Aleph account
+          </Alert>
+        </Snackbar>
       </div>
     </main>
   );
