@@ -68,7 +68,7 @@ const AllContractsPage = dynamic(
                   <Link className="contract-button" href={`/quiz/arweave:${encodeURIComponent(contract.id)}`}>
                     <button>{contract.metadata.title}</button>
                   </Link>
-                  <button className="contract-button" onClick={() => shareQuizLink(contract.id)}>Share Link</button>
+                  <button className="contract-button" onClick={() => shareQuizLink(contract.ogId)}>Share Link</button>
                   <Link
                     href={`/quiz/${encodeURIComponent(contract.id)}/export`}
                     className="contract-button"
