@@ -16,6 +16,10 @@ import {
 } from "warp-contracts-plugin-deploy";
 import { WarpFactory } from "warp-contracts";
 
+import daQuizMeta from "../daQuiz.json";
+
+import daQuizMeta from "../daQuiz.json";
+
 
 
 const CreateQuizPage = dynamic(
@@ -58,7 +62,7 @@ const CreateQuizPage = dynamic(
       const [isSubmitted, setIsSubmitted] = useState(false);
       const [showConfetti, setShowConfetti] = useState(false);
       const [connectedWallet, setConnectedWallet] = useState<string[]>([]);
-      const [selectedDeploymentOptions, setSelectedDeploymentOptions] = useState<string[]>([]);
+      const [selectedDeploymentOptions, setSelectedDeploymentOptions] = useState<string>();
 
       async function initApi () {
         // Replace 'wss://your-node-url' with the WebSocket URL of your Polkadot node
@@ -143,11 +147,10 @@ const CreateQuizPage = dynamic(
 
       const handleDeploymentOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
         const option = event.target.value;
-        if (!selectedDeploymentOptions.includes(option))
-        {
-          // If the option is not selected, add it
-          setSelectedDeploymentOptions((prevOptions) => [...prevOptions, option]);
-        }
+        console.log(option);
+        console.log(selectedDeploymentOptions);
+        setSelectedDeploymentOptions(option);
+        console.log(selectedDeploymentOptions);
       };
 
       const addQuestion = () => {
@@ -283,8 +286,9 @@ const CreateQuizPage = dynamic(
 
           // finds an injector for an address
           const caller = await web3FromAddress(SENDER);
+          console.log(caller.accounts)
 
-          const blueprint = new BlueprintPromise(api, metadata, '5FjsGWBHjiJynQYprSSGQXs7NgFTC6diU7SSrgsLv5gskbNZ');
+          const blueprint = new BlueprintPromise(api, daQuizMeta, '0xab90296deb54ef262b070ef27ab756eb88bd05773d75420daea255a9c35583f9');
 
           const gasLimit = 1E11;
           // a limit to how much Balance to be used to pay for the storage created by the instantiation
@@ -294,7 +298,10 @@ const CreateQuizPage = dynamic(
           // use null to prevent duplicate contracts
           const salt = Uint8Array.from(uuidv4(), x => x.charCodeAt(0));
 
-          const tx = blueprint.tx.default({ gasLimit, storageDepositLimit, salt });
+          const constructorIndex = 0;  // Index of the constructor to use
+          const constructorArgs = [newContract.metadata, newContract.questions];
+
+          const tx = blueprint.tx.default({ gasLimit, storageDepositLimit, salt, constructorIndex, ...constructorArgs});
 
           let address;
 
@@ -315,9 +322,9 @@ const CreateQuizPage = dynamic(
           );
           const userSigner = new InjectedArweaveSigner(arWallet);
           await userSigner.setPublicKey();
-          const registryContract=warp
-          .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
-          .connect(userSigner)
+          const registryContract = warp
+            .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
+            .connect(userSigner);
           const { contractTxId } = await warp.deployFromSourceTx({
             wallet: userSigner,
             initState: JSON.stringify({
@@ -341,8 +348,8 @@ const CreateQuizPage = dynamic(
           });
           await registryContract.writeInteraction({
             function: "addTrivia",
-            address:window.arweaveWallet.getActiveAddress(),
-            id:"arweave:"+contractTxId
+            address: window.arweaveWallet.getActiveAddress(),
+            id: "arweave:" + contractTxId
           });
         }
 
@@ -355,6 +362,8 @@ const CreateQuizPage = dynamic(
         setTimeout(() => {
           setShowConfetti(false);
         }, 5000);
+
+        console.log(selectedDeploymentOptions);
       };
 
       const renderConfetti = () => {
@@ -531,8 +540,9 @@ const CreateQuizPage = dynamic(
                   <label style={{ marginBottom: '8px', display: 'block' }}>
                     <input
                       type="radio"
+                      name="deploymentOption"
                       value="arweave"
-                      checked={connectedWallet.includes("arweave")}
+                      checked={selectedDeploymentOptions === 'arweave'}
                       onChange={handleDeploymentOptionChange}
                       hidden={!connectedWallet.includes("arweave")} // Disable if Arweave wallet is not connected
                     />
@@ -541,8 +551,9 @@ const CreateQuizPage = dynamic(
                   <label style={{ marginBottom: '8px', display: 'block' }}>
                     <input
                       type="radio"
+                      name="deploymentOption"
                       value="polkadotjs"
-                      checked={connectedWallet.includes("polkadotjs")}
+                      checked={selectedDeploymentOptions === 'polkadotjs'}
                       onChange={handleDeploymentOptionChange}
                       hidden={!connectedWallet.includes("polkadotjs")} // Disable if Polkadot.js wallet is not connected
                     />
