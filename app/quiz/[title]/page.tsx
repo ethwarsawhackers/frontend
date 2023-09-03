@@ -5,18 +5,23 @@ import Link from "next/link";
 import Confetti from "react-confetti";
 import { contracts } from "../../data";
 import dynamic from "next/dynamic";
+import { WarpFactory } from "warp-contracts";
+import {
+  InjectedArweaveSigner,
+} from "warp-contracts-plugin-deploy";
 import { fetchContractData } from "../../helpers/fetchContractData";
 
 const QuizPage = dynamic(
   () =>
     Promise.resolve(({ params }: { params: { title: string; }; }) => {
       const [activeQuestion, setActiveQuestion] = useState(0);
-      const [questions, setQuestions] = useState([{ question: undefined, answers: undefined }]);
+      const [questions, setQuestions] = useState([{ id:undefined, question: undefined, answers: undefined }]);
       const [title, setTitle] = useState('');
       const [checked, setChecked] = useState(false);
       const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
       const [showResult, setShowResult] = useState(false);
-
+      const warp = WarpFactory.forMainnet()
+      let myEntry=[]
       const decodedTitle = decodeURIComponent(params.title);
 
       useEffect(() => {
@@ -44,19 +49,39 @@ const QuizPage = dynamic(
       //   Select and check answer
       const onAnswerSelected = (idx) => {
         setChecked(true);
+        let currentQuestion=questions[activeQuestion]
+        let currentAnswer=questions[activeQuestion].answers[idx]
+        myEntry.push({
+          id:currentQuestion.id,
+          ...currentQuestion,
+          answer:idx
+        })
+
         setSelectedAnswerIndex(idx);
       };
 
       // Calculate score and increment to next question
-      const nextQuestion = () => {
+      const nextQuestion = async () => {
         setSelectedAnswerIndex(null);
         if (activeQuestion !== questions.length - 1)
         {
           setActiveQuestion((prev) => prev + 1);
         } else
         {
+          const userSigner = new InjectedArweaveSigner(
+            (window as any).arWallet
+          );
+          await userSigner.setPublicKey();
+          const quizContract = warp
+            .contract(decodedTitle.split(":")[1])
+            .connect(userSigner as any);
+            await quizContract.writeInteraction({
+              function:"setOwnEntry",
+              questions:myEntry
+            })
           setActiveQuestion(0);
           setShowResult(true);
+
         }
         setChecked(false);
       };

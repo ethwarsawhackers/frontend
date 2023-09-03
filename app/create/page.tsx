@@ -22,7 +22,7 @@ import {
   InjectedArweaveSigner,
 } from "warp-contracts-plugin-deploy";
 
-import { ArWallet, WarpFactory } from "warp-contracts";
+import { WarpFactory } from "warp-contracts";
 
 import daQuizMeta from "../daQuiz.json";
 import alephzeroaccount from "../alephzeroaccount.json";
