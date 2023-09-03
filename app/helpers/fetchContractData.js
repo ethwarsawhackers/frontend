@@ -14,7 +14,6 @@ export async function fetchContractData (contractId){
         "alephzero": async ()=> {
             const wsProvider = new WsProvider("wss://ws.test.azero.dev");
             const api = await ApiPromise.create({ provider: wsProvider });
-            const { alephWallet } = window;
             
             const contract = new ContractPromise(api, daQuizMeta, cid);
             const gasLimit = 3E9;

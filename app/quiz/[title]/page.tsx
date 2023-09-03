@@ -6,43 +6,28 @@ import Confetti from "react-confetti";
 import { contracts } from "../../data";
 import dynamic from "next/dynamic";
 import { WarpFactory } from "warp-contracts";
-import {
-  InjectedArweaveSigner,
-} from "warp-contracts-plugin-deploy";
+import { InjectedArweaveSigner } from "warp-contracts-plugin-deploy";
 import { fetchContractData } from "../../helpers/fetchContractData";
-import wallet from "../../components/Arweave";
+import { ApiPromise, WsProvider } from "@polkadot/api";
+import { web3FromAddress } from "@polkadot/extension-dapp";
+import { ContractPromise } from "@polkadot/api-contract";
+
+import daQuizMeta from "../../daQuiz.json";
 
 const QuizPage = dynamic(
   () =>
     Promise.resolve(({ params }: { params: { title: string } }) => {
       const [activeQuestion, setActiveQuestion] = useState(0);
-      const [questions, setQuestions] = useState([{ id:undefined, question: undefined, answers: undefined }]);
-      const [title, setTitle] = useState('');
+      const [questions, setQuestions] = useState([
+        { id: undefined, question: undefined, answers: undefined },
+      ]);
+      const [title, setTitle] = useState("");
       const [checked, setChecked] = useState(false);
       const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
       const [showResult, setShowResult] = useState(false);
-      const warp = WarpFactory.forMainnet()
-      const [myEntry,setMyEntry]=useState([])
+      const warp = WarpFactory.forMainnet();
+      const [myEntry, setMyEntry] = useState([]);
       const decodedTitle = decodeURIComponent(params.title);
-
-      async function connectArweave() {
-        console.log("Connecting to Arweave");
-        await wallet.connect();
-        if (wallet.address) {
-          console.log("Wallet Address: " + wallet.address);
-          window.arWallet = wallet;
-          window.walletAddress = window.arweaveWallet.getActiveAddress();
-        } else {
-          console.log("Wallet Not Connected");
-        }
-      }
-
-      async function disconnectArweave() {
-        await wallet.disconnect();
-        if (!wallet.address) {
-          console.log("Wallet Disconnected");
-        }
-      }
 
       useEffect(() => {
         (async () => {
@@ -67,13 +52,16 @@ const QuizPage = dynamic(
       //   Select and check answer
       const onAnswerSelected = (idx) => {
         setChecked(true);
-        let currentQuestion=questions[activeQuestion]
-        let currentAnswer=questions[activeQuestion].answers[idx]
-        setMyEntry([...myEntry,{
-          id:currentQuestion.id,
-          ...currentQuestion,
-          answer:idx
-        }])
+        let currentQuestion = questions[activeQuestion];
+        let currentAnswer = questions[activeQuestion].answers[idx];
+        setMyEntry([
+          ...myEntry,
+          {
+            id: currentQuestion.id,
+            ...currentQuestion,
+            answer: idx,
+          },
+        ]);
 
         setSelectedAnswerIndex(idx);
       };
@@ -83,22 +71,52 @@ const QuizPage = dynamic(
         setSelectedAnswerIndex(null);
         if (activeQuestion !== questions.length - 1) {
           setActiveQuestion((prev) => prev + 1);
-        } else
-        {
-          const userSigner = new InjectedArweaveSigner(
-            (window as any).arWallet
-          );
-          await userSigner.setPublicKey();
-          const quizContract = warp
-            .contract(decodedTitle.split(":")[1])
-            .connect(userSigner as any);
+        } else {
+          const { arweaveWallet } = window as any;
+          const { alephWallet } = window as any;
+
+          if (alephWallet) {
+            const wsProvider = new WsProvider("wss://ws.test.azero.dev");
+            const api = await ApiPromise.create({ provider: wsProvider });
+            const SENDER = alephWallet.address;
+            const caller = await web3FromAddress(SENDER);
+            api.setSigner(caller.signer);
+            const contract = new ContractPromise(
+              api,
+              daQuizMeta,
+              decodedTitle.split(":")[1]
+            );
+            const gasLimit = 3e9;
+            const storageDepositLimit = null;
+
+            const meta = await contract.tx
+              .setOwnEntry(
+                {
+                  gasLimit,
+                  storageDepositLimit,
+                },
+                myEntry
+              )
+              .signAndSend(alephWallet.address, (result) => {
+                if (result.status.isInBlock) {
+                  console.log("Aleph submitOwnEntry in a block");
+                } else if (result.status.isFinalized) {
+                  console.log("Aleph submitOwnEntry finalized");
+                }
+              });
+          } else {
+            const userSigner = new InjectedArweaveSigner(arweaveWallet);
+            await userSigner.setPublicKey();
+            const quizContract = warp
+              .contract(decodedTitle.split(":")[1])
+              .connect(userSigner as any);
             await quizContract.writeInteraction({
-              function:"setOwnEntry",
-              questions:myEntry
-            })
+              function: "setOwnEntry",
+              questions: myEntry,
+            });
+          }
           setActiveQuestion(0);
           setShowResult(true);
-
         }
         setChecked(false);
       };
