@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import { WarpFactory } from "warp-contracts";
 import {
   InjectedArweaveSigner,
+  DeployPlugin
 } from "warp-contracts-plugin-deploy";
 import { fetchContractData } from "../../helpers/fetchContractData";
 
@@ -20,7 +21,7 @@ const QuizPage = dynamic(
       const [checked, setChecked] = useState(false);
       const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
       const [showResult, setShowResult] = useState(false);
-      const warp = WarpFactory.forMainnet()
+      const warp = WarpFactory.forMainnet().use(new DeployPlugin())
       const [myEntry,setMyEntry]=useState([])
       const decodedTitle = decodeURIComponent(params.title);
 
