@@ -36,7 +36,7 @@ const AllContractsPage = dynamic(
           (window as any).walletAddress = "gzhTmIZrTDeWJWqLik_VPPkB7lglmUKaItJGTRzmLrg";
         }
         fetch(
-          `https://dre-2.warp.cc/contract?id=wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY&query=$.trivias.${window?.walletAddress}`
+          `https://dre-2.warp.cc/contract?id=wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY&query=$.trivias.${(window as any)?.walletAddress}`
         )
           .then((res) => res.json())
           .then((r) => {
