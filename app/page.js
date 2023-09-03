@@ -14,6 +14,7 @@ export default function Home() {
       console.log("Wallet Address: " + wallet.address);
       setHasArweave(true);
       setOpen(true);
+      window.arWallet=wallet
     }
   }
 
