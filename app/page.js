@@ -14,7 +14,7 @@ export default function Home() {
       console.log("Wallet Address: " + wallet.address);
       setHasArweave(true);
       setOpen(true);
-      window.arWallet=wallet
+      window.arWallet = wallet;
     }
   }
 
@@ -84,7 +84,7 @@ export default function Home() {
       <div className="container home-page">
         <h1>Magnetify</h1>
         <sub className="tagline">
-          <i>Amplify Your Knowledge. Magnetize Your Future</i>
+          <i>Amplify Your Knowledge, Magnetize Your Future</i>
         </sub>
 
         {hasAleph || hasArweave ? (
@@ -92,7 +92,6 @@ export default function Home() {
             <Link
               href={{
                 pathname: "/create",
-                query: wallet, // the data
               }}
               className="function-link"
             >
