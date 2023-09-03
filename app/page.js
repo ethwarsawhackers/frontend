@@ -44,7 +44,9 @@ export default function Home() {
       console.log("No accounts found");
       return;
     }
+
     console.log(`Chosen account: ${allAccounts[0].address}`);
+    window.alephWallet = allAccounts[0];
     setHasAleph(true);
     setOpen(true);
 

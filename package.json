@@ -15,6 +15,7 @@
     "@mui/material": "^5.14.7",
     "arweave": "^1.14.4",
     "@polkadot/api": "^10.9.1",
+    "@polkadot/api-contract": "^10.9.1",
     "@polkadot/extension-dapp": "^0.46.5",
     "arweave-wallet-connector": "^1.0.2",
     "csv-writer": "^1.6.0",
@@ -25,7 +26,9 @@
     "react-confetti": "^6.1.0",
     "react-dom": "18.2.0",
     "styled-components": "^6.0.7",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "warp-contracts": "^1.4.17",
+    "warp-contracts-plugin-deploy": "^1.0.9"
   },
   "devDependencies": {
     "@types/react": "18.2.21",
