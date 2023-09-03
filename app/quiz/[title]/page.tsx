@@ -11,6 +11,11 @@ import {
   DeployPlugin
 } from "warp-contracts-plugin-deploy";
 import { fetchContractData } from "../../helpers/fetchContractData";
+import { ApiPromise, WsProvider } from "@polkadot/api";
+import { web3FromAddress } from "@polkadot/extension-dapp";
+import { ContractPromise } from "@polkadot/api-contract";
+
+import daQuizMeta from "../../daQuiz.json";
 
 const QuizPage = dynamic(
   () =>
@@ -69,17 +74,43 @@ const QuizPage = dynamic(
           setActiveQuestion((prev) => prev + 1);
         } else
         {
-          const userSigner = new InjectedArweaveSigner(
-            (window as any).arWallet
-          );
-          await userSigner.setPublicKey();
-          const quizContract = warp
-            .contract(decodedTitle.split(":")[1])
-            .connect(userSigner as any);
-            await quizContract.writeInteraction({
-              function:"setOwnEntry",
-              questions:myEntry
-            })
+
+          const { arweaveWallet } = window as any;
+          const { alephWallet } = window as any;
+
+          if (alephWallet) {
+            const wsProvider = new WsProvider("wss://ws.test.azero.dev");
+            const api = await ApiPromise.create({ provider: wsProvider });
+            const SENDER = alephWallet.address;
+            const caller = await web3FromAddress(SENDER);
+            api.setSigner(caller.signer);
+            const contract = new ContractPromise(api, daQuizMeta, decodedTitle.split(":")[1]);
+            const gasLimit = 3E9;
+            const storageDepositLimit = null;
+            
+            const meta = await contract.tx.setOwnEntry({
+                gasLimit,
+                storageDepositLimit,
+                }, myEntry
+            ).signAndSend(alephWallet.address, result => {
+              if (result.status.isInBlock) {
+                console.log('Aleph submitOwnEntry in a block');
+              } else if (result.status.isFinalized) {
+                console.log('Aleph submitOwnEntry finalized');
+              }});
+          } else {
+            const userSigner = new InjectedArweaveSigner(
+              arweaveWallet
+            );
+            await userSigner.setPublicKey();
+            const quizContract = warp
+              .contract(decodedTitle.split(":")[1])
+              .connect(userSigner as any);
+              await quizContract.writeInteraction({
+                function:"setOwnEntry",
+                questions:myEntry
+              })
+          }
           setActiveQuestion(0);
           setShowResult(true);
 

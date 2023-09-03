@@ -231,10 +231,10 @@ const CreateQuizPage = dynamic(
 
       const handleSubmit = async (e) => {
         e.preventDefault();
-        const { arweaveWallet } = window as any;
+        const { arWallet } = window as any;
         const { alephWallet } = window as any;
         const { web3FromAddress } = await import("@polkadot/extension-dapp");
-        if (!arweaveWallet && !alephWallet) {
+        if (!arWallet && !alephWallet) {
           alert("Please login with a wallet to continue!");
           return; // Prevent further processing if wallet is not installed
         }
@@ -282,14 +282,9 @@ const CreateQuizPage = dynamic(
 
         if (alephWallet) {
           console.log("Aleph Wallet detected", alephWallet);
-          // Construct
-          // const wsProvider = new WsProvider("wss://aleph-zero-testnet-rpc.dwellir.com");
           const wsProvider = new WsProvider("wss://ws.test.azero.dev");
           const api = await ApiPromise.create({ provider: wsProvider });
-          // the address we use to use for signing, as injected
           const SENDER = alephWallet.address;
-
-          // Initialize the keyring
           const caller = await web3FromAddress(SENDER);
           api.setSigner(caller.signer);
 
@@ -300,15 +295,9 @@ const CreateQuizPage = dynamic(
           );
 
           const gasLimit = 1e11;
-          // a limit to how much Balance to be used to pay for the storage created by the instantiation
-          // if null is passed, unlimited balance can be used
           const storageDepositLimit = null;
-          // used to derive contract address,
-          // use null to prevent duplicate contracts
           const salt = Uint8Array.from(uuidv4(), (x) => x.charCodeAt(0));
 
-          const endowment = 1_000_000_000_000;
-          const constructorIndex = 0; // Index of the constructor to use
           const constructorArgs = [newContract.metadata, newContract.questions];
 
           const tx = blueprint.tx.default({
@@ -347,7 +336,7 @@ const CreateQuizPage = dynamic(
         } else {
           // * Arweave
           console.log(
-            `Creating form with address ${arweaveWallet.getActiveAddress()}`
+            `Creating form with address ${(window as any).arweaveWallet.getActiveAddress()}`
           );
           const userSigner = new InjectedArweaveSigner(
             (window as any).arWallet
