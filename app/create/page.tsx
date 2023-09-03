@@ -57,7 +57,7 @@ const CreateQuizPage = dynamic(
       const [isSubmitted, setIsSubmitted] = useState(false);
       const [showConfetti, setShowConfetti] = useState(false);
       const [connectedWallet, setConnectedWallet] = useState<string[]>([]);
-      const [selectedDeploymentOptions, setSelectedDeploymentOptions] = useState<string[]>([]);
+      const [selectedDeploymentOptions, setSelectedDeploymentOptions] = useState<string>();
 
       async function initApi () {
         // Replace 'wss://your-node-url' with the WebSocket URL of your Polkadot node
@@ -154,11 +154,10 @@ const CreateQuizPage = dynamic(
 
       const handleDeploymentOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
         const option = event.target.value;
-        if (!selectedDeploymentOptions.includes(option))
-        {
-          // If the option is not selected, add it
-          setSelectedDeploymentOptions((prevOptions) => [...prevOptions, option]);
-        }
+        console.log(option);
+        console.log(selectedDeploymentOptions);
+        setSelectedDeploymentOptions(option);
+        console.log(selectedDeploymentOptions);
       };
 
       const addQuestion = () => {
@@ -326,9 +325,9 @@ const CreateQuizPage = dynamic(
           );
           const userSigner = new InjectedArweaveSigner(arWallet);
           await userSigner.setPublicKey();
-          const registryContract=warp
-          .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
-          .connect(userSigner)
+          const registryContract = warp
+            .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
+            .connect(userSigner);
           const { contractTxId } = await warp.deployFromSourceTx({
             wallet: userSigner,
             initState: JSON.stringify({
@@ -352,8 +351,8 @@ const CreateQuizPage = dynamic(
           });
           await registryContract.writeInteraction({
             function: "addTrivia",
-            address:window.arweaveWallet.getActiveAddress(),
-            id:"arweave:"+contractTxId
+            address: window.arweaveWallet.getActiveAddress(),
+            id: "arweave:" + contractTxId
           });
         }
 
@@ -366,6 +365,8 @@ const CreateQuizPage = dynamic(
         setTimeout(() => {
           setShowConfetti(false);
         }, 5000);
+
+        console.log(selectedDeploymentOptions);
       };
 
       const renderConfetti = () => {
@@ -542,8 +543,9 @@ const CreateQuizPage = dynamic(
                   <label style={{ marginBottom: '8px', display: 'block' }}>
                     <input
                       type="radio"
+                      name="deploymentOption"
                       value="arweave"
-                      checked={connectedWallet.includes("arweave")}
+                      checked={selectedDeploymentOptions === 'arweave'}
                       onChange={handleDeploymentOptionChange}
                       hidden={!connectedWallet.includes("arweave")} // Disable if Arweave wallet is not connected
                     />
@@ -552,8 +554,9 @@ const CreateQuizPage = dynamic(
                   <label style={{ marginBottom: '8px', display: 'block' }}>
                     <input
                       type="radio"
+                      name="deploymentOption"
                       value="polkadotjs"
-                      checked={connectedWallet.includes("polkadotjs")}
+                      checked={selectedDeploymentOptions === 'polkadotjs'}
                       onChange={handleDeploymentOptionChange}
                       hidden={!connectedWallet.includes("polkadotjs")} // Disable if Polkadot.js wallet is not connected
                     />
