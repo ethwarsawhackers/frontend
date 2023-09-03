@@ -99,6 +99,11 @@ button {
   padding: 12px 4px;
 }
 
+.grid-item {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
 li {
   list-style-type: none;
   cursor: pointer;
@@ -260,18 +265,26 @@ li {
   background-color: lightgray; /* Hover background color */
 }
 
-.contract-buttons {
+.contract-grid {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  margin-top: 30px; /* Adjust as needed for spacing */
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 1rem;
 }
 
 .contract-button {
-  flex: 1;
-  height: 50px;
-  margin-right: 50px;
-  margin-left: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  text-decoration: none;
 }
+
 .nav-icon {
   width: 5rem;
   height: auto;
