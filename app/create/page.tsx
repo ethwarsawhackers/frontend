@@ -18,8 +18,6 @@ import { WarpFactory } from "warp-contracts";
 
 import daQuizMeta from "../daQuiz.json";
 
-import daQuizMeta from "../daQuiz.json";
-
 
 
 const CreateQuizPage = dynamic(
