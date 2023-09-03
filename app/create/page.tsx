@@ -9,7 +9,6 @@ import Confetti from "react-confetti";
 import { v4 as uuidv4 } from "uuid";
 import TextField from "@mui/material/TextField";
 import dynamic from "next/dynamic";
-import { ApiPromise, WsProvider } from "@polkadot/api";
 import {
   DeployPlugin,
   InjectedArweaveSigner,
@@ -233,7 +232,8 @@ const CreateQuizPage = dynamic(
         const { arweaveWallet } = window;
         const { alephWallet } = window;
         const { web3FromAddress } = await import("@polkadot/extension-dapp");
-        if (!arweaveWallet && !alephWallet) {
+        if (!arweaveWallet && !alephWallet)
+        {
           alert("Please login with a wallet to continue!");
           return; // Prevent further processing if wallet is not installed
         }
@@ -277,11 +277,12 @@ const CreateQuizPage = dynamic(
           questions: questionsWithBase64Notes,
         };
 
-        contracts.push(newContract);
+        // contracts.push(newContract);
 
-        console.log("Updated Contracts:", contracts);
+        // console.log("Updated Contracts:", contracts);
 
-        if (alephWallet) {
+        if (alephWallet)
+        {
           console.log("Aleph Wallet detected");
           // Construct
           // const wsProvider = new WsProvider("wss://aleph-zero-testnet-rpc.dwellir.com");
@@ -300,15 +301,18 @@ const CreateQuizPage = dynamic(
           const txHash = api.tx.balances
             .transfer(SENDER, 123456)
             .signAndSend(SENDER, { signer: injector.signer }, ({ status }) => {
-              if (status.isInBlock) {
+              if (status.isInBlock)
+              {
                 console.log("in a block");
-              } else if (status.isFinalized) {
+              } else if (status.isFinalized)
+              {
                 console.log("finalized");
               }
             });
 
           console.log(`Submitted with hash ${txHash}`);
-        } else {
+        } else
+        {
           // * Arweave
           console.log(
             `Creating form with address ${arweaveWallet.getActiveAddress()}`
@@ -538,7 +542,7 @@ const CreateQuizPage = dynamic(
                       onChange={handleDeploymentOptionChange}
                       hidden={!connectedWallet.includes("polkadotjs")} // Disable if Polkadot.js wallet is not connected
                     />
-                    {connectedWallet.includes("polkadotjs") ? 'Deploy on Polkadot' : 'Not connected to Polkadot.js wallet'}
+                    {connectedWallet.includes("polkadotjs") ? 'Deploy on AlephZero' : 'Not connected to Polkadot.js wallet'}
                   </label>
                 </div>
               </div>
