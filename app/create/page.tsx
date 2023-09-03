@@ -321,7 +321,7 @@ const CreateQuizPage = dynamic(
           await userSigner.setPublicKey();
           const registryContract=warp
           .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
-          .connect(window.arweaveWallet)
+          .connect(userSigner)
           const { contractTxId } = await warp.deployFromSourceTx({
             wallet: userSigner,
             initState: JSON.stringify({
