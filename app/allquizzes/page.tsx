@@ -31,9 +31,9 @@ const AllContractsPage = dynamic(
     Promise.resolve(() => {
       const [contracts, setContracts] = useState([]);
       useEffect(() => {
-        if (!window.walletAddress)
+        if (!(window as any).walletAddress)
         {
-          window.walletAddress = "gzhTmIZrTDeWJWqLik_VPPkB7lglmUKaItJGTRzmLrg";
+          (window as any).walletAddress = "gzhTmIZrTDeWJWqLik_VPPkB7lglmUKaItJGTRzmLrg";
         }
         fetch(
           `https://dre-2.warp.cc/contract?id=wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY&query=$.trivias.${window?.walletAddress}`
@@ -48,7 +48,7 @@ const AllContractsPage = dynamic(
               })
             ).then((fetchedContracts) => {
               console.log(
-                "Fetched contracts for " + window.walletAddress + ", ",
+                "Fetched contracts for " + (window as any).walletAddress + ", ",
                 fetchedContracts
               );
 
