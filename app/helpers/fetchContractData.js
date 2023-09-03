@@ -9,7 +9,7 @@ export async function fetchContractData (contractId){
             let contractData=await fetch(
                 `https://dre-2.warp.cc/contract?id=`+cId
                 ).then(r=>r.json())
-                return {...contractData.state,id:cId}
+                return {...contractData.state,id:cId,ogId:contractId}
         },
         "alephzero": async ()=> {
             const wsProvider = new WsProvider("wss://ws.test.azero.dev");
