@@ -326,27 +326,35 @@ const CreateQuizPage = dynamic(
           );
           const userSigner = new InjectedArweaveSigner(arWallet);
           await userSigner.setPublicKey();
-          // const { contractTxId } = await warp.deployFromSourceTx({
-          //   arweaveWallet: userSigner,
-          //   initState: JSON.stringify({
-          //     metadata: {
-          //       title: metadata.title,
-          //       tokens: metadata.tokens,
-          //       ticker: metadata.ticker,
-          //       chain: metadata.chain,
-          //       allow: metadata.allow,
-          //       maxEntries: metadata.maxEntries,
-          //       note: btoa(metadata.note),
-          //       style: {
-          //         background: "color: #04040",
-          //         text: "color: #f4f4f4",
-          //       },
-          //     },
-          //     entries: [],
-          //     questions: questions,
-          //   }),
-          //   srcTxId: "bjzoOHRcCwikYuiPVwqIKMX6tOqK1kYImqA1ESHN1Ew",
-          // });
+          const registryContract=warp
+          .contract("wk4ZWf6v5CY5o5-pjfkO7b1ezIkkGMXIAfJjchPf3bY")
+          .connect(userSigner)
+          const { contractTxId } = await warp.deployFromSourceTx({
+            wallet: userSigner,
+            initState: JSON.stringify({
+              metadata: {
+                title: metadata.title,
+                tokens: metadata.tokens,
+                ticker: metadata.ticker,
+                chain: metadata.chain,
+                allow: metadata.allow,
+                maxEntries: metadata.maxEntries,
+                note: btoa(metadata.note),
+                style: {
+                  background: "color: #04040",
+                  text: "color: #f4f4f4",
+                },
+              },
+              entries: [],
+              questions: questions,
+            }),
+            srcTxId: "bjzoOHRcCwikYuiPVwqIKMX6tOqK1kYImqA1ESHN1Ew",
+          });
+          await registryContract.writeInteraction({
+            function: "addTrivia",
+            address:window.arweaveWallet.getActiveAddress(),
+            id:"arweave:"+contractTxId
+          });
         }
 
         resetForm();
