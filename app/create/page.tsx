@@ -10,6 +10,12 @@ import Confetti from "react-confetti";
 import { v4 as uuidv4 } from "uuid";
 import TextField from "@mui/material/TextField";
 import dynamic from "next/dynamic";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+
 import {
   DeployPlugin,
   InjectedArweaveSigner,
@@ -544,35 +550,30 @@ const CreateQuizPage = dynamic(
                 Add Question
               </button>
               <div style={{ margin: "16px" }}>
-                <h2>Choose Deployment Option:</h2>
-                <div style={{ margin: "16px" }}>
-                  <label style={{ marginBottom: "8px", display: "block" }}>
-                    <input
-                      type="radio"
-                      name="deploymentOption"
-                      value="arweave"
-                      checked={selectedDeploymentOptions === "arweave"}
+                <h2 className="deploy-header">Deploy On:</h2>
+                <FormControl>
+                  <FormLabel id="demo-radio-buttons-group-label"></FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue=""
+                    name="radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="Arweave"
+                      control={<Radio />}
+                      label="Arweave"
                       onChange={handleDeploymentOptionChange}
-                      hidden={!connectedWallet.includes("arweave")} // Disable if Arweave wallet is not connected
+                      disabled={!connectedWallet.includes("arweave")}
                     />
-                    {connectedWallet.includes("arweave")
-                      ? "Deploy on Arweave"
-                      : "Not connected to Arweave wallet"}
-                  </label>
-                  <label style={{ marginBottom: "8px", display: "block" }}>
-                    <input
-                      type="radio"
-                      name="deploymentOption"
-                      value="polkadotjs"
-                      checked={selectedDeploymentOptions === "polkadotjs"}
+                    <FormControlLabel
+                      value="AlephZero"
+                      control={<Radio />}
+                      label="AlephZero"
                       onChange={handleDeploymentOptionChange}
-                      hidden={!connectedWallet.includes("polkadotjs")} // Disable if Polkadot.js wallet is not connected
+                      disabled={!connectedWallet.includes("polkadotjs")}
                     />
-                    {connectedWallet.includes("polkadotjs")
-                      ? "Deploy on AlephZero"
-                      : "Not connected to Polkadot.js wallet"}
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </div>
               <div>
                 <button

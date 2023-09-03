@@ -434,3 +434,7 @@ header {
     background-positon-x: 0px;
   }
 }
+
+.deploy-header {
+  padding-top: 2rem;
+}
