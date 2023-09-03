@@ -21,7 +21,7 @@ const QuizPage = dynamic(
       const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
       const [showResult, setShowResult] = useState(false);
       const warp = WarpFactory.forMainnet()
-      let myEntry=[]
+      const [myEntry,setMyEntry]=useState([])
       const decodedTitle = decodeURIComponent(params.title);
 
       useEffect(() => {
@@ -51,11 +51,11 @@ const QuizPage = dynamic(
         setChecked(true);
         let currentQuestion=questions[activeQuestion]
         let currentAnswer=questions[activeQuestion].answers[idx]
-        myEntry.push({
+        setMyEntry([...myEntry,{
           id:currentQuestion.id,
           ...currentQuestion,
           answer:idx
-        })
+        }])
 
         setSelectedAnswerIndex(idx);
       };
