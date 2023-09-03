@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, ChangeEvent, useEffect } from "react";
+import { BlueprintPromise } from '@polkadot/api-contract';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import Arweave from 'arweave/web';
 import Link from "next/link";
@@ -292,25 +293,31 @@ const CreateQuizPage = dynamic(
           const SENDER = alephWallet.address;
 
           // finds an injector for an address
-          const injector = await web3FromAddress(SENDER);
+          const caller = await web3FromAddress(SENDER);
 
-          // sign and send our transaction - notice here that the address of the account
-          // (as retrieved injected) is passed through as the param to the `signAndSend`,
-          // the API then calls the extension to present to the user and get it signed.
-          // Once complete, the api sends the tx + signature via the normal process
-          const txHash = api.tx.balances
-            .transfer(SENDER, 123456)
-            .signAndSend(SENDER, { signer: injector.signer }, ({ status }) => {
-              if (status.isInBlock)
-              {
-                console.log("in a block");
-              } else if (status.isFinalized)
-              {
-                console.log("finalized");
-              }
-            });
+          const blueprint = new BlueprintPromise(api, metadata, '5FjsGWBHjiJynQYprSSGQXs7NgFTC6diU7SSrgsLv5gskbNZ');
 
-          console.log(`Submitted with hash ${txHash}`);
+          const gasLimit = 1E11;
+          // a limit to how much Balance to be used to pay for the storage created by the instantiation
+          // if null is passed, unlimited balance can be used
+          const storageDepositLimit = null;
+          // used to derive contract address, 
+          // use null to prevent duplicate contracts
+          const salt = Uint8Array.from(uuidv4(), x => x.charCodeAt(0));
+
+          const tx = blueprint.tx.default({ gasLimit, storageDepositLimit, salt });
+
+          let address;
+
+          const unsub = await tx.signAndSend(caller.accounts[0], ({ contract, status }) => {
+            if (status.isInBlock || status.isFinalized)
+            {
+              address = contract.address.toString();
+              unsub();
+            }
+          });
+
+          console.log(`New contract address ${address}`);
         } else
         {
           // * Arweave
