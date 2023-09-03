@@ -41,22 +41,26 @@ export default function RootLayout({ children }) {
           </div>
           <ul class="social-icon">
             <li class="social-icon__item">
-              <a class="social-icon__link" href="#">
+              <a class="social-icon__link">
                 <ion-icon name="logo-facebook"></ion-icon>
               </a>
             </li>
             <li class="social-icon__item">
-              <a class="social-icon__link" href="#">
+              <a
+                class="social-icon__link"
+                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                target="_blank"
+              >
                 <ion-icon name="logo-twitter"></ion-icon>
               </a>
             </li>
             <li class="social-icon__item">
-              <a class="social-icon__link" href="#">
+              <a class="social-icon__link">
                 <ion-icon name="logo-linkedin"></ion-icon>
               </a>
             </li>
             <li class="social-icon__item">
-              <a class="social-icon__link" href="#">
+              <a class="social-icon__link">
                 <ion-icon name="logo-instagram"></ion-icon>
               </a>
             </li>
@@ -78,7 +82,11 @@ export default function RootLayout({ children }) {
               </a>
             </li>
             <li class="menu__item">
-              <a class="menu__link" href="#">
+              <a
+                class="menu__link"
+                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                target="_blank"
+              >
                 Team
               </a>
             </li>
