@@ -120,19 +120,7 @@ const CreateQuizPage = dynamic(
 
       // Check if the user is connected to the Arweave wallet
       async function isConnectedToArweaveWallet () {
-        try
-        {
-          // Get the Arweave wallet address (public key)
-          const walletAddress = await arweave.wallets.getAddress();
-
-          // If a wallet address is defined, the user is connected to the Arweave wallet
-          console.log(walletAddress);
-          return typeof walletAddress !== 'undefined';
-        } catch (error)
-        {
-          console.error('Error checking Arweave wallet connection:', error);
-          return false;
-        }
+        return (typeof window.arWallet)!="undefined"
       }
 
       useEffect(() => {
